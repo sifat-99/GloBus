@@ -184,39 +184,54 @@
         ]
     },
     {
-        "product_id": "DUMMY-PRODUCT-5",
-        "brand": "Brand5",
-        "model": "Model-5",
-        "category": "Miscellaneous",
-        "type": "Generic Item",
-        "description": "Description for dummy product 5",
+        "product_id": "LP-DELL-XPS13-2025",
+        "brand": "Dell",
+        "model": "XPS 13 2025",
+        "category": "Electronics",
+        "type": "Laptop",
+        "technology": "Intel Core i7, 16GB RAM, 512GB SSD",
+        "warranty": {
+            "parts": "1 year",
+            "service": "1 year"
+        },
+        "badges": [
+            "Official Warranty",
+            "Fastpick"
+        ],
         "discount": {
-            "percentage": 15,
-            "original_price": 5000,
-            "discounted_price": 4250.0,
+            "percentage": 10,
+            "original_price": 95000,
+            "discounted_price": 85500,
             "currency": "BDT"
         },
         "ratings": {
-            "stars": 4.0,
-            "total_reviews": 50
+            "stars": 4.8,
+            "total_reviews": 58
         },
         "availability": {
-            "total_quantity": 250,
-            "sold": 125,
-            "remaining": 125
+            "total_quantity": 30,
+            "sold": 18,
+            "remaining": 12
         },
-        "badges": [
-            "Best Seller"
+        "features": [
+            "Intel Core i7 processor",
+            "16GB RAM",
+            "512GB SSD",
+            "13-inch 4K display",
+            "Slim and lightweight design"
         ],
-        "vendor": "Vendor5",
-        "image_url": "product_image_5.jpg",
+        "vendor": "Fastpick",
+        "image_url": "https://nx91e1z55v.ufs.sh/f/wMVhzGWYItJVGI2BBNqyXLWGjdVu6SokqtBl480xwmAvFsQz",
         "labels": [
-            "-15%"
+            "-10%",
+            "2025 Model"
         ],
         "service_includes": [
-            "Free shipping"
+            "Free delivery",
+            "1-year warranty"
         ]
-    },
+    }
+    ,
     {
         "product_id": "DUMMY-PRODUCT-6",
         "brand": "Brand6",
