@@ -36,7 +36,7 @@
             "Quiet operation"
         ],
         "vendor": "Fastpick",
-        "image_url": "product_image_1.png",
+        "image_url": "https://nx91e1z55v.ufs.sh/f/wMVhzGWYItJVfimHjvkBLuyNkpq1g5JsPoU6C0cKfHMn4jXi",
         "labels": [
             "-28%",
             "DC Inverter"
@@ -84,7 +84,7 @@
             "Fast Delivery"
         ],
         "vendor": "SmartWorld",
-        "image_url": "product_image_2.jpg",
+        "image_url": "https://nx91e1z55v.ufs.sh/f/wMVhzGWYItJVHXOk6zy3jx9eZTBnXEN4cQ6KdtJqphGILl75",
         "labels": [
             "-15%",
             "5G",
@@ -127,7 +127,7 @@
             "Top Seller"
         ],
         "vendor": "Urban Fashion BD",
-        "image_url": "product_image_3.jpg",
+        "image_url": "https://nx91e1z55v.ufs.sh/f/wMVhzGWYItJVX9ddXR4RmeOJMHIj8fNwx4rQqChSicpgGz6k",
         "labels": [
             "-40%",
             "Hot Deal"
@@ -137,37 +137,50 @@
         ]
     },
     {
-        "product_id": "DUMMY-PRODUCT-4",
-        "brand": "Brand4",
-        "model": "Model-4",
-        "category": "Miscellaneous",
-        "type": "Generic Item",
-        "description": "Description for dummy product 4",
+        "product_id": "AC-HISENSE-OVEN-45L",
+        "brand": "Hisense",
+        "model": "45L Digital Oven",
+        "category": "Home Appliance",
+        "type": "Oven",
+        "technology": "Digital Control",
+        "warranty": {
+            "parts": "3 years",
+            "service": "1 year"
+        },
+        "badges": [
+            "Official Warranty",
+            "Fastpick"
+        ],
         "discount": {
-            "percentage": 14,
-            "original_price": 4000,
-            "discounted_price": 3440.0,
+            "percentage": 15,
+            "original_price": 25000,
+            "discounted_price": 21250,
             "currency": "BDT"
         },
         "ratings": {
-            "stars": 3.5,
-            "total_reviews": 40
+            "stars": 4.7,
+            "total_reviews": 32
         },
         "availability": {
-            "total_quantity": 200,
-            "sold": 100,
-            "remaining": 100
+            "total_quantity": 50,
+            "sold": 28,
+            "remaining": 22
         },
-        "badges": [
-            "Best Seller"
+        "features": [
+            "Convection cooking",
+            "Multiple cooking modes",
+            "Digital timer",
+            "Energy efficient"
         ],
-        "vendor": "Vendor4",
-        "image_url": "product_image_4.jpg",
+        "vendor": "Fastpick",
+        "image_url": "https://nx91e1z55v.ufs.sh/f/wMVhzGWYItJVQ36R9OLlwki8uZOTyhLdMoKseW63FNxEmV9n",
         "labels": [
-            "-14%"
+            "-15%",
+            "Digital Control"
         ],
         "service_includes": [
-            "Free shipping"
+            "Free delivery",
+            "Free installation"
         ]
     },
     {

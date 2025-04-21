@@ -1,3 +1,4 @@
+import BestSellingSection from "@/Components/BestSelling";
 import FeatureSlider from "@/Components/FeatureSlider";
 import Header from "@/Components/Header";
 import BannerSection from "@/Components/Hero";
@@ -9,6 +10,7 @@ export default function Home() {
             <Header />
             <BannerSection />
             <FeatureSlider />
+            <BestSellingSection />
         </>
     );
 }
