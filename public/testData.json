@@ -233,343 +233,461 @@
     }
     ,
     {
-        "product_id": "DUMMY-PRODUCT-6",
-        "brand": "Brand6",
-        "model": "Model-6",
-        "category": "Miscellaneous",
-        "type": "Generic Item",
-        "description": "Description for dummy product 6",
+        "product_id": "MP-APPLE-IPHONE15PROMAX-256GB",
+        "brand": "Apple",
+        "model": "iPhone 15 Pro Max 256GB",
+        "category": "Electronics",
+        "type": "Smartphone",
+        "technology": "A17 Pro Chip, iOS 17",
+        "warranty": {
+            "parts": "1 year",
+            "service": "1 year"
+        },
+        "badges": [
+            "Official Warranty",
+            "Fastpick"
+        ],
         "discount": {
-            "percentage": 16,
-            "original_price": 6000,
-            "discounted_price": 5040.0,
+            "percentage": 12,
+            "original_price": 189000,
+            "discounted_price": 166320,
             "currency": "BDT"
         },
         "ratings": {
-            "stars": 3.0,
-            "total_reviews": 60
+            "stars": 4.9,
+            "total_reviews": 210
+        },
+        "availability": {
+            "total_quantity": 80,
+            "sold": 65,
+            "remaining": 15
+        },
+        "features": [
+            "6.7-inch Super Retina XDR display",
+            "A17 Pro chip for lightning-fast performance",
+            "Triple 48MP camera system",
+            "Titanium body, USB-C",
+            "Face ID and 5G support"
+        ],
+        "vendor": "Fastpick",
+        "image_url": "https://nx91e1z55v.ufs.sh/f/wMVhzGWYItJVvHhx3alxow8L5Vzy0WJ4fNEO3QjXZTbGCeSR",
+        "labels": [
+            "-12%",
+            "Official Product"
+        ],
+        "service_includes": [
+            "Free delivery",
+            "1-year Apple authorized service"
+        ]
+    }
+    ,
+    {
+        "product_id": "AC-HISENSE-1TON-FULLDC",
+        "brand": "Hisense",
+        "model": "1 Ton Full DC Inverter",
+        "category": "Home Appliance",
+        "type": "Air Conditioner",
+        "technology": "DC Inverter",
+        "warranty": {
+            "compressor": "12 years",
+            "parts": "4 years",
+            "service": "2 years"
+        },
+        "badges": [
+            "Official Warranty",
+            "Fastpick"
+        ],
+        "discount": {
+            "percentage": 28,
+            "original_price": 59900,
+            "discounted_price": 42990,
+            "currency": "BDT"
+        },
+        "ratings": {
+            "stars": 4.5,
+            "total_reviews": 17
+        },
+        "availability": {
+            "total_quantity": 100,
+            "sold": 65,
+            "remaining": 35
+        },
+        "features": [
+            "Energy saving technology",
+            "Quick cooling",
+            "Quiet operation"
+        ],
+        "vendor": "Fastpick",
+        "image_url": "https://nx91e1z55v.ufs.sh/f/wMVhzGWYItJVfimHjvkBLuyNkpq1g5JsPoU6C0cKfHMn4jXi",
+        "labels": [
+            "-28%",
+            "DC Inverter"
+        ],
+        "service_includes": [
+            "Free delivery",
+            "Free installation"
+        ]
+    },
+    {
+        "product_id": "MOBILE-SAMSUNG-GS24",
+        "brand": "Samsung",
+        "model": "Galaxy S24 5G",
+        "category": "Electronics",
+        "type": "Smartphone",
+        "specs": {
+            "display": "6.1-inch Dynamic AMOLED",
+            "storage": "256GB",
+            "ram": "8GB",
+            "camera": "50MP + 12MP + 10MP",
+            "battery": "4000mAh",
+            "os": "Android 14"
+        },
+        "discount": {
+            "percentage": 15,
+            "original_price": 99900,
+            "discounted_price": 84915,
+            "currency": "BDT"
+        },
+        "ratings": {
+            "stars": 4.7,
+            "total_reviews": 142
         },
         "availability": {
             "total_quantity": 300,
-            "sold": 150,
-            "remaining": 150
-        },
-        "badges": [
-            "Best Seller"
-        ],
-        "vendor": "Vendor6",
-        "image_url": "product_image_6.jpg",
-        "labels": [
-            "-16%"
-        ],
-        "service_includes": [
-            "Free shipping"
-        ]
-    },
-    {
-        "product_id": "DUMMY-PRODUCT-7",
-        "brand": "Brand7",
-        "model": "Model-7",
-        "category": "Miscellaneous",
-        "type": "Generic Item",
-        "description": "Description for dummy product 7",
-        "discount": {
-            "percentage": 17,
-            "original_price": 7000,
-            "discounted_price": 5810.0,
-            "currency": "BDT"
-        },
-        "ratings": {
-            "stars": 3.5,
-            "total_reviews": 70
-        },
-        "availability": {
-            "total_quantity": 350,
             "sold": 175,
-            "remaining": 175
+            "remaining": 125
+        },
+        "warranty": {
+            "device": "1 year",
+            "battery": "6 months"
         },
         "badges": [
-            "Best Seller"
+            "Official Warranty",
+            "Fast Delivery"
         ],
-        "vendor": "Vendor7",
-        "image_url": "product_image_7.jpg",
+        "vendor": "SmartWorld",
+        "image_url": "https://nx91e1z55v.ufs.sh/f/wMVhzGWYItJVHXOk6zy3jx9eZTBnXEN4cQ6KdtJqphGILl75",
         "labels": [
-            "-17%"
+            "-15%",
+            "5G",
+            "Flagship"
         ],
         "service_includes": [
-            "Free shipping"
+            "Free delivery"
         ]
     },
     {
-        "product_id": "DUMMY-PRODUCT-8",
-        "brand": "Brand8",
-        "model": "Model-8",
-        "category": "Miscellaneous",
-        "type": "Generic Item",
-        "description": "Description for dummy product 8",
+        "product_id": "TSHIRT-MEN-COTTON-BLACK",
+        "brand": "Urban Fit",
+        "model": "Premium Cotton T-Shirt",
+        "category": "Clothing",
+        "type": "Men's T-Shirt",
+        "material": "100% Cotton",
+        "color": "Black",
+        "size_available": [
+            "M",
+            "L",
+            "XL",
+            "XXL"
+        ],
         "discount": {
-            "percentage": 18,
-            "original_price": 8000,
-            "discounted_price": 6560.000000000001,
+            "percentage": 40,
+            "original_price": 999,
+            "discounted_price": 599,
             "currency": "BDT"
         },
         "ratings": {
-            "stars": 4.0,
-            "total_reviews": 80
+            "stars": 4.2,
+            "total_reviews": 39
         },
         "availability": {
-            "total_quantity": 400,
-            "sold": 200,
-            "remaining": 200
+            "total_quantity": 200,
+            "sold": 85,
+            "remaining": 115
         },
         "badges": [
-            "Best Seller"
+            "Top Seller"
         ],
-        "vendor": "Vendor8",
-        "image_url": "product_image_8.jpg",
+        "vendor": "Urban Fashion BD",
+        "image_url": "https://nx91e1z55v.ufs.sh/f/wMVhzGWYItJVX9ddXR4RmeOJMHIj8fNwx4rQqChSicpgGz6k",
         "labels": [
-            "-18%"
+            "-40%",
+            "Hot Deal"
         ],
         "service_includes": [
-            "Free shipping"
+            "7-day return policy"
+        ]
+    },{
+        "product_id": "AC-HISENSE-1TON-FULLDC",
+        "brand": "Hisense",
+        "model": "1 Ton Full DC Inverter",
+        "category": "Home Appliance",
+        "type": "Air Conditioner",
+        "technology": "DC Inverter",
+        "warranty": {
+            "compressor": "12 years",
+            "parts": "4 years",
+            "service": "2 years"
+        },
+        "badges": [
+            "Official Warranty",
+            "Fastpick"
+        ],
+        "discount": {
+            "percentage": 28,
+            "original_price": 59900,
+            "discounted_price": 42990,
+            "currency": "BDT"
+        },
+        "ratings": {
+            "stars": 4.5,
+            "total_reviews": 17
+        },
+        "availability": {
+            "total_quantity": 100,
+            "sold": 65,
+            "remaining": 35
+        },
+        "features": [
+            "Energy saving technology",
+            "Quick cooling",
+            "Quiet operation"
+        ],
+        "vendor": "Fastpick",
+        "image_url": "https://nx91e1z55v.ufs.sh/f/wMVhzGWYItJVfimHjvkBLuyNkpq1g5JsPoU6C0cKfHMn4jXi",
+        "labels": [
+            "-28%",
+            "DC Inverter"
+        ],
+        "service_includes": [
+            "Free delivery",
+            "Free installation"
         ]
     },
     {
-        "product_id": "DUMMY-PRODUCT-9",
-        "brand": "Brand9",
-        "model": "Model-9",
-        "category": "Miscellaneous",
-        "type": "Generic Item",
-        "description": "Description for dummy product 9",
+        "product_id": "MOBILE-SAMSUNG-GS24",
+        "brand": "Samsung",
+        "model": "Galaxy S24 5G",
+        "category": "Electronics",
+        "type": "Smartphone",
+        "specs": {
+            "display": "6.1-inch Dynamic AMOLED",
+            "storage": "256GB",
+            "ram": "8GB",
+            "camera": "50MP + 12MP + 10MP",
+            "battery": "4000mAh",
+            "os": "Android 14"
+        },
         "discount": {
-            "percentage": 19,
-            "original_price": 9000,
-            "discounted_price": 7290.000000000001,
+            "percentage": 15,
+            "original_price": 99900,
+            "discounted_price": 84915,
             "currency": "BDT"
         },
         "ratings": {
-            "stars": 3.0,
-            "total_reviews": 90
+            "stars": 4.7,
+            "total_reviews": 142
         },
         "availability": {
-            "total_quantity": 450,
-            "sold": 225,
-            "remaining": 225
+            "total_quantity": 300,
+            "sold": 175,
+            "remaining": 125
+        },
+        "warranty": {
+            "device": "1 year",
+            "battery": "6 months"
         },
         "badges": [
-            "Best Seller"
+            "Official Warranty",
+            "Fast Delivery"
         ],
-        "vendor": "Vendor9",
-        "image_url": "product_image_9.jpg",
+        "vendor": "SmartWorld",
+        "image_url": "https://nx91e1z55v.ufs.sh/f/wMVhzGWYItJVHXOk6zy3jx9eZTBnXEN4cQ6KdtJqphGILl75",
         "labels": [
-            "-19%"
+            "-15%",
+            "5G",
+            "Flagship"
         ],
         "service_includes": [
-            "Free shipping"
+            "Free delivery"
         ]
     },
     {
-        "product_id": "DUMMY-PRODUCT-10",
-        "brand": "Brand10",
-        "model": "Model-10",
-        "category": "Miscellaneous",
-        "type": "Generic Item",
-        "description": "Description for dummy product 10",
+        "product_id": "TSHIRT-MEN-COTTON-BLACK",
+        "brand": "Urban Fit",
+        "model": "Premium Cotton T-Shirt",
+        "category": "Clothing",
+        "type": "Men's T-Shirt",
+        "material": "100% Cotton",
+        "color": "Black",
+        "size_available": [
+            "M",
+            "L",
+            "XL",
+            "XXL"
+        ],
         "discount": {
-            "percentage": 20,
-            "original_price": 10000,
-            "discounted_price": 8000.0,
+            "percentage": 40,
+            "original_price": 999,
+            "discounted_price": 599,
             "currency": "BDT"
         },
         "ratings": {
-            "stars": 3.5,
-            "total_reviews": 100
+            "stars": 4.2,
+            "total_reviews": 39
         },
         "availability": {
-            "total_quantity": 500,
-            "sold": 250,
-            "remaining": 250
+            "total_quantity": 200,
+            "sold": 85,
+            "remaining": 115
         },
         "badges": [
-            "Best Seller"
+            "Top Seller"
         ],
-        "vendor": "Vendor10",
-        "image_url": "product_image_10.jpg",
+        "vendor": "Urban Fashion BD",
+        "image_url": "https://nx91e1z55v.ufs.sh/f/wMVhzGWYItJVX9ddXR4RmeOJMHIj8fNwx4rQqChSicpgGz6k",
         "labels": [
-            "-20%"
+            "-40%",
+            "Hot Deal"
         ],
         "service_includes": [
-            "Free shipping"
+            "7-day return policy"
+        ]
+    },{
+        "product_id": "AC-HISENSE-1TON-FULLDC",
+        "brand": "Hisense",
+        "model": "1 Ton Full DC Inverter",
+        "category": "Home Appliance",
+        "type": "Air Conditioner",
+        "technology": "DC Inverter",
+        "warranty": {
+            "compressor": "12 years",
+            "parts": "4 years",
+            "service": "2 years"
+        },
+        "badges": [
+            "Official Warranty",
+            "Fastpick"
+        ],
+        "discount": {
+            "percentage": 28,
+            "original_price": 59900,
+            "discounted_price": 42990,
+            "currency": "BDT"
+        },
+        "ratings": {
+            "stars": 4.5,
+            "total_reviews": 17
+        },
+        "availability": {
+            "total_quantity": 100,
+            "sold": 65,
+            "remaining": 35
+        },
+        "features": [
+            "Energy saving technology",
+            "Quick cooling",
+            "Quiet operation"
+        ],
+        "vendor": "Fastpick",
+        "image_url": "https://nx91e1z55v.ufs.sh/f/wMVhzGWYItJVfimHjvkBLuyNkpq1g5JsPoU6C0cKfHMn4jXi",
+        "labels": [
+            "-28%",
+            "DC Inverter"
+        ],
+        "service_includes": [
+            "Free delivery",
+            "Free installation"
         ]
     },
     {
-        "product_id": "DUMMY-PRODUCT-11",
-        "brand": "Brand11",
-        "model": "Model-11",
-        "category": "Miscellaneous",
-        "type": "Generic Item",
-        "description": "Description for dummy product 11",
+        "product_id": "MOBILE-SAMSUNG-GS24",
+        "brand": "Samsung",
+        "model": "Galaxy S24 5G",
+        "category": "Electronics",
+        "type": "Smartphone",
+        "specs": {
+            "display": "6.1-inch Dynamic AMOLED",
+            "storage": "256GB",
+            "ram": "8GB",
+            "camera": "50MP + 12MP + 10MP",
+            "battery": "4000mAh",
+            "os": "Android 14"
+        },
         "discount": {
-            "percentage": 21,
-            "original_price": 11000,
-            "discounted_price": 8690.0,
+            "percentage": 15,
+            "original_price": 99900,
+            "discounted_price": 84915,
             "currency": "BDT"
         },
         "ratings": {
-            "stars": 4.0,
-            "total_reviews": 110
+            "stars": 4.7,
+            "total_reviews": 142
         },
         "availability": {
-            "total_quantity": 550,
-            "sold": 275,
-            "remaining": 275
+            "total_quantity": 300,
+            "sold": 175,
+            "remaining": 125
+        },
+        "warranty": {
+            "device": "1 year",
+            "battery": "6 months"
         },
         "badges": [
-            "Best Seller"
+            "Official Warranty",
+            "Fast Delivery"
         ],
-        "vendor": "Vendor11",
-        "image_url": "product_image_11.jpg",
+        "vendor": "SmartWorld",
+        "image_url": "https://nx91e1z55v.ufs.sh/f/wMVhzGWYItJVHXOk6zy3jx9eZTBnXEN4cQ6KdtJqphGILl75",
         "labels": [
-            "-21%"
+            "-15%",
+            "5G",
+            "Flagship"
         ],
         "service_includes": [
-            "Free shipping"
+            "Free delivery"
         ]
     },
     {
-        "product_id": "DUMMY-PRODUCT-12",
-        "brand": "Brand12",
-        "model": "Model-12",
-        "category": "Miscellaneous",
-        "type": "Generic Item",
-        "description": "Description for dummy product 12",
+        "product_id": "TSHIRT-MEN-COTTON-BLACK",
+        "brand": "Urban Fit",
+        "model": "Premium Cotton T-Shirt",
+        "category": "Clothing",
+        "type": "Men's T-Shirt",
+        "material": "100% Cotton",
+        "color": "Black",
+        "size_available": [
+            "M",
+            "L",
+            "XL",
+            "XXL"
+        ],
         "discount": {
-            "percentage": 22,
-            "original_price": 12000,
-            "discounted_price": 9360.0,
+            "percentage": 40,
+            "original_price": 999,
+            "discounted_price": 599,
             "currency": "BDT"
         },
         "ratings": {
-            "stars": 3.0,
-            "total_reviews": 120
+            "stars": 4.2,
+            "total_reviews": 39
         },
         "availability": {
-            "total_quantity": 600,
-            "sold": 300,
-            "remaining": 300
+            "total_quantity": 200,
+            "sold": 85,
+            "remaining": 115
         },
         "badges": [
-            "Best Seller"
+            "Top Seller"
         ],
-        "vendor": "Vendor12",
-        "image_url": "product_image_12.jpg",
+        "vendor": "Urban Fashion BD",
+        "image_url": "https://nx91e1z55v.ufs.sh/f/wMVhzGWYItJVX9ddXR4RmeOJMHIj8fNwx4rQqChSicpgGz6k",
         "labels": [
-            "-22%"
+            "-40%",
+            "Hot Deal"
         ],
         "service_includes": [
-            "Free shipping"
-        ]
-    },
-    {
-        "product_id": "DUMMY-PRODUCT-13",
-        "brand": "Brand13",
-        "model": "Model-13",
-        "category": "Miscellaneous",
-        "type": "Generic Item",
-        "description": "Description for dummy product 13",
-        "discount": {
-            "percentage": 23,
-            "original_price": 13000,
-            "discounted_price": 10010.0,
-            "currency": "BDT"
-        },
-        "ratings": {
-            "stars": 3.5,
-            "total_reviews": 130
-        },
-        "availability": {
-            "total_quantity": 650,
-            "sold": 325,
-            "remaining": 325
-        },
-        "badges": [
-            "Best Seller"
-        ],
-        "vendor": "Vendor13",
-        "image_url": "product_image_13.jpg",
-        "labels": [
-            "-23%"
-        ],
-        "service_includes": [
-            "Free shipping"
-        ]
-    },
-    {
-        "product_id": "DUMMY-PRODUCT-14",
-        "brand": "Brand14",
-        "model": "Model-14",
-        "category": "Miscellaneous",
-        "type": "Generic Item",
-        "description": "Description for dummy product 14",
-        "discount": {
-            "percentage": 24,
-            "original_price": 14000,
-            "discounted_price": 10640.0,
-            "currency": "BDT"
-        },
-        "ratings": {
-            "stars": 4.0,
-            "total_reviews": 140
-        },
-        "availability": {
-            "total_quantity": 700,
-            "sold": 350,
-            "remaining": 350
-        },
-        "badges": [
-            "Best Seller"
-        ],
-        "vendor": "Vendor14",
-        "image_url": "product_image_14.jpg",
-        "labels": [
-            "-24%"
-        ],
-        "service_includes": [
-            "Free shipping"
-        ]
-    },
-    {
-        "product_id": "DUMMY-PRODUCT-15",
-        "brand": "Brand15",
-        "model": "Model-15",
-        "category": "Miscellaneous",
-        "type": "Generic Item",
-        "description": "Description for dummy product 15",
-        "discount": {
-            "percentage": 25,
-            "original_price": 15000,
-            "discounted_price": 11250.0,
-            "currency": "BDT"
-        },
-        "ratings": {
-            "stars": 3.0,
-            "total_reviews": 150
-        },
-        "availability": {
-            "total_quantity": 750,
-            "sold": 375,
-            "remaining": 375
-        },
-        "badges": [
-            "Best Seller"
-        ],
-        "vendor": "Vendor15",
-        "image_url": "product_image_15.jpg",
-        "labels": [
-            "-25%"
-        ],
-        "service_includes": [
-            "Free shipping"
+            "7-day return policy"
         ]
     }
 ]
