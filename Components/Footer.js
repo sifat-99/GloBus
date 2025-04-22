@@ -34,7 +34,7 @@ function Footer() {
                     <ul className="space-y-1 ">
                         <li>Home</li>
                         <li>About Us</li>
-                        <li>Car Type</li>
+
                         <li>Service</li>
                     </ul>
                 </div>
