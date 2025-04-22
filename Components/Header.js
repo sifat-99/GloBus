@@ -213,7 +213,6 @@ export default function Header() {
                             aria-haspopup="true"
                             onClick={handleProfileMenuOpen}
                             color="inherit"
-                            href='/profile'
                         >
                             <AccountCircle />
                         </IconButton>
