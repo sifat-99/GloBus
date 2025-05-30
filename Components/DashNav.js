@@ -22,7 +22,9 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Link from 'next/link';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { usePathname } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 
 const drawerWidth = 240;
 
@@ -56,9 +58,14 @@ function ResponsiveDrawer(props) {
     const pathname = usePathname(); // Get the current path
     const { children } = props; // Destructure children from props
     const { window } = props;
-    // TODO: Replace this with your actual role detection logic
-    // This could come from context, props, or a global state manager
-    const userRole = 'seller'; // Example roles: 'admin', 'seller', 'user'
+    const auth = useAuth();
+
+    // Determine userRole from context, default to 'user' if not authenticated or role not present
+    // Handle loading state from auth context
+    const userRole = auth && auth.isAuthenticated && auth.user ? auth.user.role : 'user';
+
+
+
 
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [isClosing, setIsClosing] = React.useState(false);
@@ -83,6 +90,11 @@ function ResponsiveDrawer(props) {
         menuItemsToDisplay = adminMenuItems;
     } else if (userRole === 'seller') {
         menuItemsToDisplay = sellerMenuItems;
+    }
+
+    // If auth is loading, you might want to show a loading state or a restricted menu
+    if (auth && auth.loading) {
+        return <Typography>Loading dashboard...</Typography>; // Or a proper loading component
     }
 
     const drawer = (
@@ -111,6 +123,19 @@ function ResponsiveDrawer(props) {
                     </ListItem>
                 ))}
             </List>
+            <Divider />
+            {auth && auth.isAuthenticated && (
+                <List>
+                    <ListItem disablePadding>
+                        <ListItemButton onClick={() => auth.logout()}>
+                            <ListItemIcon>
+                                <LogoutIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Logout" />
+                        </ListItemButton>
+                    </ListItem>
+                </List>
+            )}
         </div>
     );
 
@@ -137,9 +162,9 @@ function ResponsiveDrawer(props) {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap component="div">
+                    <Link href="/" passHref style={{ textDecoration: 'none', color: 'inherit' }}>
                         Dashboard
-                    </Typography>
+                    </Link>
                 </Toolbar>
             </AppBar>
             <Box

@@ -1,19 +1,35 @@
 'use client';
 
 import { useState } from 'react';
+import axios from 'axios';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function RegisterPage() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [role, setRole] = useState('user'); // Default role
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const router = useRouter();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Placeholder for registration logic
-        console.log('Registration attempt with:', { name, email, password, role });
-        alert('Registration functionality not implemented yet.');
+    setError('');
+    setSuccess('');
+
+    try {
+        const response = await axios.post('/api/auth/register', { name, email, password, role });
+        setSuccess(response.data.message);
+        // Optionally redirect to login page or dashboard
+        setTimeout(() => {
+            router.push('/login');
+        }, 2000);
+    } catch (err) {
+        setError(err.response?.data?.message || 'Registration failed. Please try again.');
+        console.error('Registration error:', err.response?.data || err.message);
+    }
     };
 
     return (
@@ -24,6 +40,13 @@ export default function RegisterPage() {
                         Create your account
                     </h2>
                 </div>
+            {error && <p className="text-center text-red-500 bg-red-100 p-2 rounded">{error}</p>}
+            {success && (
+                <div className="text-center text-green-500 bg-green-100 p-3 rounded-md">
+                    <p>{success}</p>
+                    <p>Redirecting to login...</p>
+                </div>
+            )}
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                     <div className="rounded-md shadow-sm -space-y-px">
                         <div>

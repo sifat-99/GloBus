@@ -122,9 +122,9 @@ export default function AdminDashboardPage() {
                                         </td>
                                         <td className="px-6 py-4">
                                             <span className={`px-2 py-1 text-xs font-semibold rounded-full ${product.status === 'approved' ? 'bg-green-100 text-green-800' :
-                                                    product.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                                                        product.status === 'rejected' ? 'bg-red-100 text-red-800' :
-                                                            'bg-gray-100 text-gray-800'
+                                                product.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                                                    product.status === 'rejected' ? 'bg-red-100 text-red-800' :
+                                                        'bg-gray-100 text-gray-800'
                                                 }`}>
                                                 {product.status || 'N/A'}
                                             </span>

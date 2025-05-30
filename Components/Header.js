@@ -16,10 +16,12 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import LogoutIcon from '@mui/icons-material/Logout';
 import RightArrowIcon from '@mui/icons-material/ArrowForward';
 import { ShoppingBag } from '@mui/icons-material';
 import { Button, List, ListItemButton, ListItemText, SwipeableDrawer } from '@mui/material';
 import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -46,12 +48,6 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'center',
 }));
-
-const User = {
-    name: 'Md Abdur Rahman Sifat',
-    role: 'user', // or 'seller'
-    email: 'mdabdurrahmansifat@gmail.com',
-};
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
@@ -84,6 +80,7 @@ export default function Header() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const [cartItems, setCartItems] = React.useState(0);
+    const auth = useAuth(); // Use the Auth context
     const [drawerOpen, setDrawerOpen] = React.useState(false);
 
     const isMenuOpen = Boolean(anchorEl);
@@ -91,6 +88,11 @@ export default function Header() {
 
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
+    };
+
+    const handleLogout = () => {
+        auth.logout();
+        handleMenuClose();
     };
 
     const handleMobileMenuClose = () => {
@@ -116,7 +118,7 @@ export default function Header() {
     };
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
-        User ? (<Menu
+        auth && auth.isAuthenticated ? (<Menu
             anchorEl={anchorEl}
             anchorOrigin={{
                 vertical: 'top',
@@ -131,24 +133,32 @@ export default function Header() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            {User ? (
-                <MenuItem onClick={handleMenuClose}>
-                    <IconButton
-                        size="large"
-                        aria-label="account of current user"
-                        aria-controls="primary-search-account-menu"
-                        aria-haspopup="true"
-                        color="inherit"
-                    >
-                        <AccountCircle />
-                    </IconButton>
-                    <p>{User.name}</p>
-                </MenuItem>
-            ) : null // This null is technically redundant if User is always defined as per the hardcoded object.
-                // If User could be null/undefined, this structure is fine.
-                // For the hardcoded User, the inner conditional isn't strictly needed.
-            }
-        </Menu>) : (
+            <MenuItem
+                onClick={handleMenuClose}
+                component={Link}
+                href={
+                    auth.user?.role === 'admin' ? '/admin/dashboard' :
+                        auth.user?.role === 'seller' ? '/seller' :
+                            auth.user?.role === 'user' ? '/dashboard' : '/' // Fallback to home
+                }>
+                <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="primary-search-account-menu"
+                    aria-haspopup="true"
+                    color="inherit"
+                >
+                    <AccountCircle />
+                </IconButton>
+                <p>{auth.user?.name || 'Profile'}</p>
+            </MenuItem>
+            <MenuItem onClick={handleLogout}>
+                <IconButton size="large" aria-label="logout" color="inherit">
+                    <LogoutIcon />
+                </IconButton>
+                <p>Logout</p>
+            </MenuItem>
+        </Menu >) : (
             <Menu
                 anchorEl={anchorEl}
                 anchorOrigin={{
@@ -164,7 +174,7 @@ export default function Header() {
                 open={isMenuOpen}
                 onClose={handleMenuClose}
             >
-                <MenuItem onClick={() => { window.location.href = '/login' }}>
+                <MenuItem onClick={handleMenuClose} component={Link} href="/login">
                     <IconButton
                         size="large"
                         aria-label="login"
@@ -174,7 +184,7 @@ export default function Header() {
                     </IconButton>
                     <p>Login</p>
                 </MenuItem>
-                <MenuItem onClick={() => { window.location.href = '/register' }}>
+                <MenuItem onClick={handleMenuClose} component={Link} href="/register">
                     <IconButton
                         size="large"
                         aria-label="register"
@@ -225,21 +235,36 @@ export default function Header() {
                 </IconButton>
                 <p>Notifications</p>
             </MenuItem>
-            <MenuItem onClick={handleProfileMenuOpen}>
-                <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="primary-search-account-menu"
-                    aria-haspopup="true"
-                    color="inherit"
-                >
-                    <AccountCircle />
-                </IconButton>
-                <p>Profile</p>
-            </MenuItem>
+            {auth && auth.isAuthenticated
+                ? [
+                    <MenuItem key="profile" onClick={() => { handleMobileMenuClose(); router.push(auth.user?.role === 'admin' ? '/admin' : auth.user?.role === 'seller' ? '/seller' : '/dashboard'); }}>
+                        <IconButton size="large" aria-label="account of current user" color="inherit">
+                            <AccountCircle />
+                        </IconButton>
+                        <p>Profile</p>
+                    </MenuItem>,
+                    <MenuItem key="logout" onClick={handleLogout}>
+                        <IconButton size="large" aria-label="logout" color="inherit">
+                            <LogoutIcon />
+                        </IconButton>
+                        <p>Logout</p>
+                    </MenuItem>
+                ]
+                : (
+                    <MenuItem onClick={() => { handleMobileMenuClose(); router.push('/login'); }}>
+                        <IconButton size="large" aria-label="login" color="inherit">
+                            <AccountCircle />
+                        </IconButton>
+                        <p>Login</p>
+                    </MenuItem>
+                )}
         </Menu>
     );
 
+    // Handle case where auth context might still be loading or not available
+    if (auth && auth.loading) {
+        return <Box sx={{ flexGrow: 1, maxWidth: '100%' }} className='mx-auto' ><AppBar position="static"><Toolbar><Typography>Loading...</Typography></Toolbar></AppBar></Box>; // Or a more sophisticated loader
+    }
     return (
         <Box sx={{ flexGrow: 1, maxWidth: '100%' }} className='mx-auto' >
             <AppBar position="static">
@@ -260,7 +285,7 @@ export default function Header() {
                         noWrap
                         component="div"
                         sx={{ display: { xs: 'none', sm: 'block' } }}
-                        onClick={() => { window.location.href = '/' }}
+                        onClick={() => { window.location.href = '/'; }} // Use Next.js router for client-side navigation
                     >
                         GloBus
                     </Typography>
@@ -290,17 +315,26 @@ export default function Header() {
                                 <NotificationsIcon />
                             </Badge>
                         </IconButton>
-                        <IconButton
-                            size="large"
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-controls={menuId}
-                            aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
-                        >
-                            <AccountCircle />
-                        </IconButton>
+                        {auth && auth.isAuthenticated ? (
+                            <IconButton
+                                size="large"
+                                edge="end"
+                                aria-label="account of current user"
+                                aria-controls={menuId}
+                                aria-haspopup="true"
+                                onClick={handleProfileMenuOpen}
+                                color="inherit"
+                            >
+                                <AccountCircle />
+                            </IconButton>
+                        ) : (
+                            // Show Login button if not authenticated and auth is not loading
+                            !auth?.loading && (
+                                <Button color="inherit" component={Link} href="/login">
+                                    Login
+                                </Button>
+                            )
+                        )}
                     </Box>
                     <Box sx={{ display: { xs: 'flex', sm: 'none' } }}>
                         <IconButton
