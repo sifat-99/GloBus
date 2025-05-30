@@ -18,7 +18,8 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import RightArrowIcon from '@mui/icons-material/ArrowForward';
 import { ShoppingBag } from '@mui/icons-material';
-import { List, ListItemButton, ListItemText, SwipeableDrawer } from '@mui/material';
+import { Button, List, ListItemButton, ListItemText, SwipeableDrawer } from '@mui/material';
+import Link from 'next/link';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -46,6 +47,12 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
     justifyContent: 'center',
 }));
 
+const User = {
+    name: 'Md Abdur Rahman Sifat',
+    role: 'user', // or 'seller'
+    email: 'mdabdurrahmansifat@gmail.com',
+};
+
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     '& .MuiInputBase-input': {
@@ -61,14 +68,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const categories = [
-    'Air Conditioner ',
-    'Television',
-    'Electronics & Appliances',
-    'Smartphones',
-    'Mobile Accessories',
-    'Computers',
-    'Computer Accessories',
-    'Lifestyle',
+    { Name: 'Air Conditioner ', Link: 'airConditioner' },
+    { Name: 'Refrigerator', Link: 'refrigerator ' },
+    { Name: 'Washing Machine', Link: 'washingMachine' },
+    { Name: 'Television', Link: 'television' },
+    { Name: 'Electronics & Appliances', Link: 'electronicsAndAppliances' },
+    { Name: 'Smartphones', Link: 'smartphones' },
+    { Name: 'Mobile Accessories', Link: 'mobileAccessories' },
+    { Name: 'Computers', Link: 'computers' },
+    { Name: 'Computer Accessories', Link: 'computerAccessories' },
+    { Name: 'Lifestyle', Link: 'lifestyle' },
 ];
 
 export default function Header() {
@@ -107,7 +116,7 @@ export default function Header() {
     };
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
-        <Menu
+        User ? (<Menu
             anchorEl={anchorEl}
             anchorOrigin={{
                 vertical: 'top',
@@ -122,9 +131,61 @@ export default function Header() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-        </Menu>
+            {User ? (
+                <MenuItem onClick={handleMenuClose}>
+                    <IconButton
+                        size="large"
+                        aria-label="account of current user"
+                        aria-controls="primary-search-account-menu"
+                        aria-haspopup="true"
+                        color="inherit"
+                    >
+                        <AccountCircle />
+                    </IconButton>
+                    <p>{User.name}</p>
+                </MenuItem>
+            ) : null // This null is technically redundant if User is always defined as per the hardcoded object.
+                // If User could be null/undefined, this structure is fine.
+                // For the hardcoded User, the inner conditional isn't strictly needed.
+            }
+        </Menu>) : (
+            <Menu
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                id={menuId}
+                keepMounted
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                open={isMenuOpen}
+                onClose={handleMenuClose}
+            >
+                <MenuItem onClick={() => { window.location.href = '/login' }}>
+                    <IconButton
+                        size="large"
+                        aria-label="login"
+                        color="inherit"
+                    >
+                        <AccountCircle />
+                    </IconButton>
+                    <p>Login</p>
+                </MenuItem>
+                <MenuItem onClick={() => { window.location.href = '/register' }}>
+                    <IconButton
+                        size="large"
+                        aria-label="register"
+                        color="inherit"
+                    >
+                        <AccountCircle />
+                    </IconButton>
+                    <p>Register</p>
+                </MenuItem>
+            </Menu>
+        )
     );
 
     const mobileMenuId = 'primary-search-account-menu-mobile';
@@ -263,21 +324,22 @@ export default function Header() {
                 onClose={toggleDrawer(false)}
                 onOpen={toggleDrawer(true)}
             >
-                {/* <Box
-                    sx={{ width: 250 }}
+                <Box
+                    sx={{ width: 250, bgcolor: '#000', p: 1 }} // Set a fixed width for the drawer
                     role="presentation"
                     onClick={toggleDrawer(false)}
                     onKeyDown={toggleDrawer(false)}
-                >Menu Content Here</Box> */}
-                <Box sx={{ width: { xs: '100%', md: '20%' }, bgcolor: '#000', p: 1 }}>
-                    <List dense> Added dense for smaller screens, optional
+                >
+                    {/* The sx={{ width: { xs: '100%', md: '20%' } }} was moved to the parent Box with fixed width */}
+                    {/* bgcolor and p are also applied to the parent Box */}
+                    <List dense>
                         {categories.map((item, index) => (
-                            <ListItemButton key={index}>
+                            <Link href={item.Link} key={index} >
                                 <div className='flex items-center justify-between w-full'>
-                                    <ListItemText primary={item} className='text-white' />
+                                    <ListItemText primary={item.Name} className='text-white' />
                                     <RightArrowIcon className='hover:rotate-45 text-white' />
                                 </div>
-                            </ListItemButton>
+                            </Link>
                         ))}
                     </List>
                 </Box>

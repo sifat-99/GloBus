@@ -5,16 +5,19 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import RightArrowIcon from '@mui/icons-material/ArrowForward';
 import ACImage from '../Assets/AC.png';
+import Link from 'next/link';
 
 const categories = [
-    'Air Conditioner ',
-    'Television',
-    'Electronics & Appliances',
-    'Smartphones',
-    'Mobile Accessories',
-    'Computers',
-    'Computer Accessories',
-    'Lifestyle',
+    { Name: 'Air Conditioner ', Link: 'airConditioner' },
+    { Name: 'Refrigerator', Link: 'refrigerator ' },
+    { Name: 'Washing Machine', Link: 'washingMachine' },
+    { Name: 'Television', Link: 'television' },
+    { Name: 'Electronics & Appliances', Link: 'electronicsAndAppliances' },
+    { Name: 'Smartphones', Link: 'smartphones' },
+    { Name: 'Mobile Accessories', Link: 'mobileAccessories' },
+    { Name: 'Computers', Link: 'computers' },
+    { Name: 'Computer Accessories', Link: 'computerAccessories' },
+    { Name: 'Lifestyle', Link: 'lifestyle' },
 ];
 
 const BannerSection = () => {
@@ -22,14 +25,14 @@ const BannerSection = () => {
         <Box display="flex" sx={{ flexDirection: { xs: 'column', md: 'row' } }}>
             {/* Sidebar */}
             <Box sx={{ width: { xs: '100%', md: '20%', }, bgcolor: '#000', p: 1, display: { xs: 'none', md: 'block' } }}>
-                <List dense> {/* Added dense for smaller screens, optional */}
+                <List> {/* Added dense for smaller screens, optional */}
                     {categories.map((item, index) => (
-                        <ListItemButton key={index}>
+                        <Link href={`/${item.Link}`} key={index}>
                             <div className='flex items-center justify-between w-full'>
-                                <ListItemText primary={item} className='text-white' />
+                                <ListItemText primary={item.Name} className='text-white' />
                                 <RightArrowIcon className='hover:rotate-45 text-white' />
                             </div>
-                        </ListItemButton>
+                        </Link>
                     ))}
                 </List>
             </Box>
