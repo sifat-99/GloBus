@@ -19,12 +19,12 @@ export const metadata = {
 export default function AuthLayout({ children }) {
     return (
 
-        <body
+        <section
             className="w-[100vw]"
         >
             <Header />
             {children}
-        </body>
+        </section>
 
     );
 }

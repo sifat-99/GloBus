@@ -1,4 +1,3 @@
-// app/register/page.js
 'use client';
 
 import { useState } from 'react';
@@ -8,16 +7,17 @@ export default function RegisterPage() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [role, setRole] = useState('user'); // Default role
 
     const handleSubmit = (e) => {
         e.preventDefault();
         // Placeholder for registration logic
-        console.log('Registration attempt with:', { name, email, password });
+        console.log('Registration attempt with:', { name, email, password, role });
         alert('Registration functionality not implemented yet.');
     };
 
     return (
-        <main className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 flex-grow"> {/* Added flex-grow */}
+        <main className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 flex-grow">
             <div className="max-w-md w-full space-y-8 p-10 bg-white shadow-xl rounded-xl">
                 <div>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -41,8 +41,17 @@ export default function RegisterPage() {
                         <div>
                             <label htmlFor="password" className="sr-only">Password</label>
                             <input id="password" name="password" type="password" autoComplete="new-password" required
-                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        </div>
+                        <div className="mt-4">
+                            <label htmlFor="role" className="sr-only">Role</label>
+                            <select id="role" name="role" required
+                                className="block w-full px-3 py-2 border border-gray-300 bg-white text-gray-900 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                value={role} onChange={(e) => setRole(e.target.value)}>
+                                <option value="user">User</option>
+                                <option value="seller">Seller</option>
+                            </select>
                         </div>
                     </div>
 
