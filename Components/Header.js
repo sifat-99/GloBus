@@ -16,7 +16,9 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import RightArrowIcon from '@mui/icons-material/ArrowForward';
 import { ShoppingBag } from '@mui/icons-material';
+import { List, ListItemButton, ListItemText, SwipeableDrawer } from '@mui/material';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -58,10 +60,22 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
+const categories = [
+    'Air Conditioner ',
+    'Television',
+    'Electronics & Appliances',
+    'Smartphones',
+    'Mobile Accessories',
+    'Computers',
+    'Computer Accessories',
+    'Lifestyle',
+];
+
 export default function Header() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const [cartItems, setCartItems] = React.useState(0);
+    const [drawerOpen, setDrawerOpen] = React.useState(false);
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -83,6 +97,14 @@ export default function Header() {
         setMobileMoreAnchorEl(event.currentTarget);
     };
 
+    const toggleDrawer = (open) => (event) => {
+        if (
+            event &&
+            event.type === 'keydown' &&
+            (event.key === 'Tab' || event.key === 'Shift')
+        ) { return; }
+        setDrawerOpen(open);
+    };
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
         <Menu
@@ -158,7 +180,7 @@ export default function Header() {
     );
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1, maxWidth: '100%' }} className='mx-auto' >
             <AppBar position="static">
                 <Toolbar>
                     <IconButton
@@ -166,16 +188,18 @@ export default function Header() {
                         edge="start"
                         color="inherit"
                         aria-label="open drawer"
-                        sx={{ mr: 2 }}
+                        sx={{ mr: 2, display: { xs: 'block', md: 'none' } }}
+                        onClick={toggleDrawer(true)}
                     >
                         <MenuIcon />
                     </IconButton>
                     <Typography
                         variant="h4"
-                        className='font-bold text-white'
+                        className='font-bold text-white cursor-pointer'
                         noWrap
                         component="div"
                         sx={{ display: { xs: 'none', sm: 'block' } }}
+                        onClick={() => { window.location.href = '/' }}
                     >
                         GloBus
                     </Typography>
@@ -186,11 +210,11 @@ export default function Header() {
                         <StyledInputBase
                             placeholder="Search…"
                             inputProps={{ 'aria-label': 'search' }}
-                            className='w-80 rounded-2xl'
+                            className='w-fit rounded-2xl'
                         />
                     </Search>
                     <Box sx={{ flexGrow: 1 }} />
-                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                    <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
                         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                             <Badge badgeContent={cartItems} color="error">
                                 <ShoppingBag />
@@ -217,7 +241,7 @@ export default function Header() {
                             <AccountCircle />
                         </IconButton>
                     </Box>
-                    <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+                    <Box sx={{ display: { xs: 'flex', sm: 'none' } }}>
                         <IconButton
                             size="large"
                             aria-label="show more"
@@ -233,6 +257,31 @@ export default function Header() {
             </AppBar>
             {renderMobileMenu}
             {renderMenu}
+            <SwipeableDrawer
+                anchor="left"
+                open={drawerOpen}
+                onClose={toggleDrawer(false)}
+                onOpen={toggleDrawer(true)}
+            >
+                {/* <Box
+                    sx={{ width: 250 }}
+                    role="presentation"
+                    onClick={toggleDrawer(false)}
+                    onKeyDown={toggleDrawer(false)}
+                >Menu Content Here</Box> */}
+                <Box sx={{ width: { xs: '100%', md: '20%' }, bgcolor: '#000', p: 1 }}>
+                    <List dense> Added dense for smaller screens, optional
+                        {categories.map((item, index) => (
+                            <ListItemButton key={index}>
+                                <div className='flex items-center justify-between w-full'>
+                                    <ListItemText primary={item} className='text-white' />
+                                    <RightArrowIcon className='hover:rotate-45 text-white' />
+                                </div>
+                            </ListItemButton>
+                        ))}
+                    </List>
+                </Box>
+            </SwipeableDrawer>
         </Box>
     );
 }

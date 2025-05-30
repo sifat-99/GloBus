@@ -1,5 +1,5 @@
 "use client"
-import React from 'react';
+import React, { useRef } from 'react';
 import { Box, Typography, IconButton, Grid, Divider, useTheme, Icon } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -33,7 +33,18 @@ const bottomItems = [
 ];
 
 const FeatureSlider = () => {
+    const scrollContainerRef = useRef(null);
 
+    const scroll = (direction) => {
+        if (scrollContainerRef.current) {
+            const scrollAmount = 200; // Adjust scroll distance as needed
+            if (direction === 'left') {
+                scrollContainerRef.current.scrollLeft -= scrollAmount;
+            } else {
+                scrollContainerRef.current.scrollLeft += scrollAmount;
+            }
+        }
+    };
 
     return (
         <Box sx={{ bgcolor: '#fff', p: 2, boxShadow: 1 }}>
@@ -58,6 +69,7 @@ const FeatureSlider = () => {
                 </IconButton>
 
                 <Box
+                    ref={scrollContainerRef}
                     sx={{
                         overflowX: 'auto',
                         display: 'flex',
@@ -67,6 +79,7 @@ const FeatureSlider = () => {
                         width: '100%',
                         alignItems: 'center',
                         justifyContent: "space-between"
+                        // Consider adding scrollBehavior: 'smooth' for a nicer effect
                     }}
                 >
                     {bottomItems.map((item, i) => (

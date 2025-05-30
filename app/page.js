@@ -7,12 +7,14 @@ import Image from "next/image";
 
 export default function Home() {
     return (
-        <>
+        <main className="flex-grow"> {/* Added flex-grow to allow main content to expand */}
             <Header />
-            <BannerSection />
-            <FeatureSlider />
-            <BestSellingSection />
+            <div className="container mx-auto px-4"> {/* Optional: Wrap sections in a container for consistent padding and max-width */}
+                <BannerSection />
+                <FeatureSlider />
+                <BestSellingSection />
+            </div>
             <Footer />
-        </>
+        </main>
     );
 }
