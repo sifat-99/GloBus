@@ -42,7 +42,7 @@ export async function middleware(request) {
     if (userPayload) {
         if (pathname === '/login' || pathname === '/register') {
             let homePath = '/'; // Default redirect
-            if (userPayload.role === 'admin') homePath = '/admin/dashboard';
+            if (userPayload.role === 'admin') homePath = '/admin';
             else if (userPayload.role === 'seller') homePath = '/seller/dashboard';
             else if (userPayload.role === 'user') homePath = '/dashboard';
 
