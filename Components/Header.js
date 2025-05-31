@@ -497,12 +497,14 @@ export default function Header() {
                 >
                     {/* The sx={{ width: { xs: '100%', md: '20%' } }} was moved to the parent Box with fixed width */}
                     {/* bgcolor and p are also applied to the parent Box */}
-                    <List dense>
+                    <List className=' flex flex-col gap-2 overflow-scroll'>
                         {categories.map((item, index) => (
                             <Link href={item.href} key={index} >
-                                <div className='flex items-center justify-between w-full'>
-                                    <ListItemText primary={item.name} className='text-white' />
-                                    <RightArrowIcon className='hover:rotate-45 text-white' />
+                                <div className=' mt-4 flex items-center justify-between w-full border-b border-gray-700 p-2 hover:bg-gray-800 transition-colors duration-200 overflow-scroll'>
+                                    <ListItemButton>
+                                        <ListItemText primary={item.name} className='text-white' />
+                                    </ListItemButton>
+
                                 </div>
                             </Link>
                         ))}
