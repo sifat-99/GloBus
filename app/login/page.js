@@ -26,7 +26,6 @@ export default function LoginPage() {
                 router.push('/dashboard'); // Default for 'user' role
             }
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }
         , [auth, router]);
 

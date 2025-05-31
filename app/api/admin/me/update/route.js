@@ -1,7 +1,5 @@
 // app/api/admin/me/update/route.js
 import { NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/mongodb'; // Adjust path
-import User from '@/models/User'; // Adjust path
 import { verifyToken } from '@/lib/authUtils'; // Adjust path
 // You might need bcrypt if you allow password updates
 // import bcrypt from 'bcryptjs';
