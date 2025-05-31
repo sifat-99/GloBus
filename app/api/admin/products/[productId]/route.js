@@ -36,7 +36,7 @@ export async function DELETE(request, { params }) {
 
 // PUT to update product status (e.g., approve)
 export async function PUT(request, { params }) {
-    const { productId } = params;
+    const { productId } = await params;
 
     if (!isValidObjectId(productId)) {
         return NextResponse.json({ message: 'Invalid product ID format' }, { status: 400 });

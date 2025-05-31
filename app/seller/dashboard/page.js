@@ -43,14 +43,22 @@ export default function SellerDashboardPage() {
                     <p className="text-3xl font-bold text-indigo-600">{overview.totalProducts}</p>
                 </div>
                 <div className="p-6 bg-white rounded-lg shadow">
+                    <h2 className="text-xl font-semibold text-gray-700">Active Listings</h2>
+                    <p className="text-3xl font-bold text-cyan-600">{overview.activeListings}</p>
+                </div>
+                <div className="p-6 bg-white rounded-lg shadow">
                     <h2 className="text-xl font-semibold text-gray-700">New Orders Today</h2>
                     <p className="text-3xl font-bold text-green-600">{overview.newOrdersToday}</p>
+                </div>
+                <div className="p-6 bg-white rounded-lg shadow">
+                    <h2 className="text-xl font-semibold text-gray-700">Pending Shipment</h2>
+                    <p className="text-3xl font-bold text-orange-600">{overview.pendingShipment}</p>
                 </div>
                 <div className="p-6 bg-white rounded-lg shadow">
                     <h2 className="text-xl font-semibold text-gray-700">Sales This Month</h2>
                     <p className="text-3xl font-bold text-blue-600">${overview.totalSalesMonth.toFixed(2)}</p>
                 </div>
-                {/* Add more cards for activeListings, pendingShipment etc. */}
+                {/* You can add more detailed product-wise sales breakdown here or on a separate report page */}
             </div>
         </div>
     );

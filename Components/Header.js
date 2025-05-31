@@ -63,18 +63,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-const categories = [
-    { Name: 'Air Conditioner ', Link: 'airConditioner' },
-    { Name: 'Refrigerator', Link: 'refrigerator ' },
-    { Name: 'Washing Machine', Link: 'washingMachine' },
-    { Name: 'Television', Link: 'television' },
-    { Name: 'Electronics & Appliances', Link: 'electronicsAndAppliances' },
-    { Name: 'Smartphones', Link: 'smartphones' },
-    { Name: 'Mobile Accessories', Link: 'mobileAccessories' },
-    { Name: 'Computers', Link: 'computers' },
-    { Name: 'Computer Accessories', Link: 'computerAccessories' },
-    { Name: 'Lifestyle', Link: 'lifestyle' },
-];
+
+
 
 export default function Header() {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -82,6 +72,23 @@ export default function Header() {
     const [cartItems, setCartItems] = React.useState(0);
     const auth = useAuth(); // Use the Auth context
     const [drawerOpen, setDrawerOpen] = React.useState(false);
+
+    // Define encodeCategory function
+    const encodeCategory = (categoryName) => encodeURIComponent(categoryName);
+
+    const categories = [
+        { name: 'Air Conditioner', href: `/products/category/${encodeCategory('Air Conditioner')}` },
+        { name: 'Refrigerator', href: `/products/category/${encodeCategory('Refrigerator')}`, },
+        { name: 'Washing Machine', href: `/products/category/${encodeCategory('Washing Machine')}` },
+        { name: 'Television', href: `/products/category/${encodeCategory('Television')}` },
+        { name: 'Electronics & Appliances', href: `/products/category/${encodeCategory('Electronics & Appliance')}` },
+        { name: 'Smartphones', href: `/products/category/${encodeCategory('Smartphone')}` },
+        { name: 'Mobile Accessories', href: `/products/category/${encodeCategory('Mobile Accessories')}` },
+        { name: 'Computers', href: `/products/category/${encodeCategory('Computer')}` },
+        { name: 'Computer Accessories', href: `/products/category/${encodeCategory('Computer Accessories')}` }, // Could use Mouse, Keyboard etc.
+
+
+    ];
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -237,7 +244,7 @@ export default function Header() {
             </MenuItem>
             {auth && auth.isAuthenticated
                 ? [
-                    <MenuItem key="profile" onClick={() => { handleMobileMenuClose(); router.push(auth.user?.role === 'admin' ? '/admin/dashboard' : auth.user?.role === 'seller' ? '/seller/dashboard' : '/dashboard'); }}>
+                    <MenuItem key="profile" onClick={() => { handleMobileMenuClose(); window.location.href = (auth.user?.role === 'admin' ? '/admin/dashboard' : auth.user?.role === 'seller' ? '/seller/dashboard' : '/dashboard'); }}>
                         <IconButton size="large" aria-label="account of current user" color="inherit">
                             <AccountCircle />
                         </IconButton>
@@ -368,9 +375,9 @@ export default function Header() {
                     {/* bgcolor and p are also applied to the parent Box */}
                     <List dense>
                         {categories.map((item, index) => (
-                            <Link href={item.Link} key={index} >
+                            <Link href={item.href} key={index} >
                                 <div className='flex items-center justify-between w-full'>
-                                    <ListItemText primary={item.Name} className='text-white' />
+                                    <ListItemText primary={item.name} className='text-white' />
                                     <RightArrowIcon className='hover:rotate-45 text-white' />
                                 </div>
                             </Link>

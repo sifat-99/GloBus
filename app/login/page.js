@@ -6,12 +6,11 @@ import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
+import Swal from 'sweetalert2';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
     const router = useRouter();
     const auth = useAuth();
 
@@ -33,26 +32,36 @@ export default function LoginPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
-        setSuccess('');
 
         try {
             const response = await axios.post('/api/auth/login', { email, password });
-            setSuccess(response.data.message + `. Welcome, ${response.data.user.name}!`);
             auth.login(response.data.user); // Use context to set user
 
-            // Redirect based on role
-            const userRole = response.data.user.role;
-            if (userRole === 'admin') { // Assuming you have an 'admin' role
-                router.push('/admin');
-            } else if (userRole === 'seller') {
-                router.push('/seller');
-            } else {
-                router.push('/dashboard'); // Default for 'user' role
-            }
+            Swal.fire({
+                icon: 'success',
+                title: 'Login Successful!',
+                text: `Welcome, ${response.data.user.name}!`,
+                timer: 2000,
+                showConfirmButton: false
+            }).then(() => {
+                // Redirect based on role
+                const userRole = response.data.user.role;
+                if (userRole === 'admin') {
+                    router.push('/admin');
+                } else if (userRole === 'seller') {
+                    router.push('/seller');
+                } else {
+                    router.push('/dashboard'); // Default for 'user' role
+                }
+            });
+
         } catch (err) {
-            setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
             console.error('Login error:', err.response?.data || err.message);
+            Swal.fire({
+                icon: 'error',
+                title: 'Login Failed',
+                text: err.response?.data?.message || 'Please check your credentials.',
+            });
         }
     };
 
@@ -64,8 +73,6 @@ export default function LoginPage() {
                         Sign in to your account
                     </h2>
                 </div>
-                {error && <p className="text-center text-red-500 bg-red-100 p-2 rounded">{error}</p>}
-                {success && <p className="text-center text-green-500 bg-green-100 p-2 rounded">{success}</p>}
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                     <div className="rounded-md shadow-sm -space-y-px">
                         <div>

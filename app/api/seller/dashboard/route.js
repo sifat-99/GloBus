@@ -1,18 +1,50 @@
 import { NextResponse } from 'next/server';
 import { verifyToken } from '@/lib/authUtils';
-// import { getDb } from '@/lib/db'; // If you need DB access
+import { getDb } from '@/lib/db';
+import { ObjectId } from 'mongodb';
 
 async function getSellerDashboardOverview(sellerId) {
-    // In a real app, fetch from database:
-    // e.g., count products, new orders, total sales for this seller
+    const db = await getDb();
+    const sellerObjectId = new ObjectId(sellerId);
+
+    const productsCollection = db.collection('products');
+    const ordersCollection = db.collection('orders'); // Assuming you have an orders collection
+
+    const totalProducts = await productsCollection.countDocuments({ sellerId: sellerObjectId });
+    const activeListings = await productsCollection.countDocuments({ sellerId: sellerObjectId, stock: { $gt: 0 }, status: 'Active' }); // Example status
+
+    // Get current date for "today's orders"
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+    const todayEnd = new Date();
+    todayEnd.setHours(23, 59, 59, 999);
+
+    const newOrdersToday = await ordersCollection.countDocuments({
+        sellerId: sellerObjectId, // Assuming orders also store sellerId
+        orderDate: { $gte: todayStart, $lte: todayEnd }
+    });
+
+    const pendingShipment = await ordersCollection.countDocuments({ sellerId: sellerObjectId, status: 'Processing' }); // Example status
+
+    // Calculate total sales for the current month
+    const currentMonthStart = new Date(todayStart.getFullYear(), todayStart.getMonth(), 1);
+    const salesThisMonthCursor = await ordersCollection.aggregate([
+        { $match: { sellerId: sellerObjectId, status: 'Delivered', orderDate: { $gte: currentMonthStart } } }, // Or 'Completed'
+        { $group: { _id: null, totalSales: { $sum: '$totalAmount' } } }
+    ]);
+    const salesData = await salesThisMonthCursor.toArray();
+    const totalSalesMonth = salesData.length > 0 ? salesData[0].totalSales : 0;
+
+    const sellerProfile = await db.collection('users').findOne({ _id: sellerObjectId });
+
     console.log(`Fetching dashboard overview for sellerId: ${sellerId}`);
     return {
-        totalProducts: 50, // Placeholder
-        activeListings: 45,
-        newOrdersToday: 5,
-        pendingShipment: 12,
-        totalSalesMonth: 12500.75, // Placeholder
-        shopName: "Sifat's Gadget Store", // Placeholder, fetch from seller profile
+        totalProducts,
+        activeListings,
+        newOrdersToday,
+        pendingShipment,
+        totalSalesMonth,
+        shopName: sellerProfile?.shopName || "Seller's Shop",
     };
 }
 

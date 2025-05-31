@@ -7,17 +7,21 @@ import RightArrowIcon from '@mui/icons-material/ArrowForward';
 import ACImage from '../Assets/AC.png';
 import Link from 'next/link';
 
+// Define encodeCategory function
+const encodeCategory = (categoryName) => encodeURIComponent(categoryName);
+
 const categories = [
-    { Name: 'Air Conditioner ', Link: 'airConditioner' },
-    { Name: 'Refrigerator', Link: 'refrigerator ' },
-    { Name: 'Washing Machine', Link: 'washingMachine' },
-    { Name: 'Television', Link: 'television' },
-    { Name: 'Electronics & Appliances', Link: 'electronicsAndAppliances' },
-    { Name: 'Smartphones', Link: 'smartphones' },
-    { Name: 'Mobile Accessories', Link: 'mobileAccessories' },
-    { Name: 'Computers', Link: 'computers' },
-    { Name: 'Computer Accessories', Link: 'computerAccessories' },
-    { Name: 'Lifestyle', Link: 'lifestyle' },
+    { name: 'Air Conditioner', href: `/products/category/${encodeCategory('Air Conditioner')}` },
+    { name: 'Refrigerator', href: `/products/category/${encodeCategory('Refrigerator')}`, },
+    { name: 'Washing Machine', href: `/products/category/${encodeCategory('Washing Machine')}` },
+    { name: 'Television', href: `/products/category/${encodeCategory('Television')}` },
+    { name: 'Electronics & Appliances', href: `/products/category/${encodeCategory('Electronics & Appliance')}` },
+    { name: 'Smartphones', href: `/products/category/${encodeCategory('Smartphone')}` },
+    { name: 'Mobile Accessories', href: `/products/category/${encodeCategory('Mobile Accessories')}` },
+    { name: 'Computers', href: `/products/category/${encodeCategory('Computer')}` },
+    { name: 'Computer Accessories', href: `/products/category/${encodeCategory('Computer Accessories')}` }, // Could use Mouse, Keyboard etc.
+
+
 ];
 
 const BannerSection = () => {
@@ -27,9 +31,9 @@ const BannerSection = () => {
             <Box sx={{ width: { xs: '100%', md: '20%', }, bgcolor: '#000', p: 1, display: { xs: 'none', md: 'block' } }}>
                 <List> {/* Added dense for smaller screens, optional */}
                     {categories.map((item, index) => (
-                        <Link href={`/${item.Link}`} key={index}>
+                        <Link href={`${item.href}`} key={index}>
                             <div className='flex items-center justify-between w-full'>
-                                <ListItemText primary={item.Name} className='text-white' />
+                                <ListItemText primary={item.name} className='text-white' />
                                 <RightArrowIcon className='hover:rotate-45 text-white' />
                             </div>
                         </Link>
