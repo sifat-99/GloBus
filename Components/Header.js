@@ -138,7 +138,7 @@ export default function Header() {
                 component={Link}
                 href={
                     auth.user?.role === 'admin' ? '/admin/dashboard' :
-                        auth.user?.role === 'seller' ? '/seller' :
+                        auth.user?.role === 'seller' ? '/seller/dashboard' :
                             auth.user?.role === 'user' ? '/dashboard' : '/' // Fallback to home
                 }>
                 <IconButton
@@ -237,7 +237,7 @@ export default function Header() {
             </MenuItem>
             {auth && auth.isAuthenticated
                 ? [
-                    <MenuItem key="profile" onClick={() => { handleMobileMenuClose(); router.push(auth.user?.role === 'admin' ? '/admin' : auth.user?.role === 'seller' ? '/seller' : '/dashboard'); }}>
+                    <MenuItem key="profile" onClick={() => { handleMobileMenuClose(); router.push(auth.user?.role === 'admin' ? '/admin/dashboard' : auth.user?.role === 'seller' ? '/seller/dashboard' : '/dashboard'); }}>
                         <IconButton size="large" aria-label="account of current user" color="inherit">
                             <AccountCircle />
                         </IconButton>

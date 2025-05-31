@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import { Star, ShoppingCart, Heart } from 'lucide-react';
 import Image from 'next/image'; // Using next/image for optimization
+import axios from 'axios';
 
 export default function ProductDetailPage({ params: paramsPromise }) {
     const [product, setProduct] = useState(null);
@@ -12,37 +13,26 @@ export default function ProductDetailPage({ params: paramsPromise }) {
 
     const params = React.use(paramsPromise);
     const productId = params.productId;
-    console.log("Product ID:", productId);
-
-    console.log(params)
 
     useEffect(() => {
         if (productId) {
-            fetch('/testData.json') // Assuming testData.json is in the public folder
-                .then((res) => {
-                    if (!res.ok) {
-                        throw new Error('Failed to fetch product data');
-                    }
-                    return res.json();
-                })
-                .then((data) => {
-                    const foundProduct = data.find(p => p.product_id.toString() === productId);
-                    if (foundProduct) {
-                        setProduct(foundProduct);
-                    } else {
-                        setError('Product not found');
-                    }
-                })
-                .catch((err) => {
-                    setError(err.message);
-                })
-                .finally(() => {
+            const fetchProduct = async () => {
+                setLoading(true);
+                setError(null);
+                try {
+                    const response = await axios.get(`/api/products/${productId}`);
+                    setProduct(response.data);
+                } catch (err) {
+                    console.error(`Failed to fetch product ${productId}:`, err);
+                    setError(err.response?.data?.message || 'Could not load product details.');
+                    setProduct(null);
+                } finally {
                     setLoading(false);
-                });
+                }
+            };
+            fetchProduct();
         }
     }, [productId]);
-
-    console.log(product)
 
     if (loading) {
         return <div className="flex justify-center items-center h-screen"><p>Loading product details...</p></div>;

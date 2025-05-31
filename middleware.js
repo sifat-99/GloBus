@@ -1,13 +1,5 @@
 import { NextResponse } from 'next/server';
-import { jwtVerify } from 'jose';
-
-const JWT_SECRET_KEY = process.env.JWT_SECRET;
-if (!JWT_SECRET_KEY) {
-    // This error will be caught during server startup if the secret is missing.
-    console.error("FATAL ERROR: JWT_SECRET environment variable is not set.");
-    process.exit(1); // Exit if critical env var is missing
-}
-const JWT_SECRET = new TextEncoder().encode(JWT_SECRET_KEY);
+import { verifyToken } from './lib/authUtils'; // Adjusted path if lib is at root
 
 const PUBLIC_PATHS = [
     '/', // Homepage
@@ -17,6 +9,7 @@ const PUBLIC_PATHS = [
     '/api/auth/register',
     '/api/auth/logout',
     // Assuming product listing and detail pages are public
+    '/api/products', // API route for fetching products
     '/products', // Matches /products and /products/
 ];
 
@@ -26,17 +19,6 @@ const ROLE_BASED_ROUTES_CONFIG = {
     '/seller': ['seller'],
     '/dashboard': ['user'], // Standard user dashboard
 };
-
-async function verifyToken(tokenValue) {
-    if (!tokenValue) return null;
-    try {
-        const { payload } = await jwtVerify(tokenValue, JWT_SECRET);
-        return payload; // Contains { userId, role, email, name, iat, exp }
-    } catch (error) {
-        console.warn('JWT Verification Error:', error.message); // Use warn for failed verification
-        return null;
-    }
-}
 
 export async function middleware(request) {
     const { pathname } = request.nextUrl;
@@ -55,6 +37,19 @@ export async function middleware(request) {
     }
 
     const userPayload = await verifyToken(sessionToken);
+
+    // If user is authenticated and tries to access login or register, redirect them
+    if (userPayload) {
+        if (pathname === '/login' || pathname === '/register') {
+            let homePath = '/'; // Default redirect
+            if (userPayload.role === 'admin') homePath = '/admin/dashboard';
+            else if (userPayload.role === 'seller') homePath = '/seller/dashboard';
+            else if (userPayload.role === 'user') homePath = '/dashboard';
+
+            return NextResponse.redirect(new URL(homePath, request.url));
+        }
+    }
+
 
     if (!userPayload) {
         // Not authenticated, and trying to access a non-public route

@@ -4,20 +4,54 @@ import React, { useEffect, useState } from 'react';
 import { Star } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import axios from 'axios';
 
 
 const BestSellingSection = () => {
     const [products, setProducts] = useState([]);
-    useEffect(() => {
-        fetch('/testData.json')
-            .then((res) => res.json())
-            .then((data) => setProducts(data));
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                setLoading(true);
+                const response = await axios.get('/api/products');
+                // Ensure that response.data is an array before setting it
+                if (Array.isArray(response.data)) {
+                    setProducts(response.data);
+                } else {
+                    console.error("Received non-array data from /api/products:", response.data);
+                    setProducts([]); // Fallback to an empty array to prevent .map error
+                    setError('Received invalid product data format.');
+                }
+                setError(null);
+            } catch (err) {
+                console.error("Failed to fetch best selling products:", err);
+                setError(err.response?.data?.message || 'Could not load products.');
+                setProducts([]); // Clear products on error
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProducts();
     }, []);
+
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center p-10">
+                <p className="text-lg text-gray-500">Loading best selling products...</p>
+                {/* You could replace this with a spinner component */}
+            </div>
+        );
+    }
+
+    if (error) return <div className="text-center p-10 text-red-500">Error: {error}</div>;
+
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 p-4">
             {products.map((product) => (
-                <Link key={product.product_id} href={`/products/${product.product_id}`} passHref>
+                <Link key={product.product_id} href={`/products/${product?._id}`} passHref>
                     <div
                         className="rounded-2xl shadow-md bg-white hover:shadow-lg transition duration-300 cursor-pointer h-full flex flex-col"
                     ><Image

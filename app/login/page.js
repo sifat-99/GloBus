@@ -1,7 +1,7 @@
 // app/login/page.js
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -15,29 +15,45 @@ export default function LoginPage() {
     const router = useRouter();
     const auth = useAuth();
 
+    useEffect(() => {
+
+        const user = localStorage.getItem('user');
+        if (user) {
+            if (user.role === 'admin') {
+                router.push('/admin/dashboard');
+            } else if (user.role === 'seller') {
+                router.push('/seller');
+            } else if (user.role === 'user') {
+                router.push('/dashboard'); // Default for 'user' role
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }
+        , [auth, router]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-    setError('');
-    setSuccess('');
+        setError('');
+        setSuccess('');
 
-    try {
-        const response = await axios.post('/api/auth/login', { email, password });
-        setSuccess(response.data.message + `. Welcome, ${response.data.user.name}!`);
-        auth.login(response.data.user); // Use context to set user
+        try {
+            const response = await axios.post('/api/auth/login', { email, password });
+            setSuccess(response.data.message + `. Welcome, ${response.data.user.name}!`);
+            auth.login(response.data.user); // Use context to set user
 
-        // Redirect based on role
-        const userRole = response.data.user.role;
-        if (userRole === 'admin') { // Assuming you have an 'admin' role
-            router.push('/admin');
-        } else if (userRole === 'seller') {
-            router.push('/seller');
-        } else {
-            router.push('/dashboard'); // Default for 'user' role
+            // Redirect based on role
+            const userRole = response.data.user.role;
+            if (userRole === 'admin') { // Assuming you have an 'admin' role
+                router.push('/admin');
+            } else if (userRole === 'seller') {
+                router.push('/seller');
+            } else {
+                router.push('/dashboard'); // Default for 'user' role
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+            console.error('Login error:', err.response?.data || err.message);
         }
-    } catch (err) {
-        setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
-        console.error('Login error:', err.response?.data || err.message);
-    }
     };
 
     return (
@@ -48,8 +64,8 @@ export default function LoginPage() {
                         Sign in to your account
                     </h2>
                 </div>
-            {error && <p className="text-center text-red-500 bg-red-100 p-2 rounded">{error}</p>}
-            {success && <p className="text-center text-green-500 bg-green-100 p-2 rounded">{success}</p>}
+                {error && <p className="text-center text-red-500 bg-red-100 p-2 rounded">{error}</p>}
+                {success && <p className="text-center text-green-500 bg-green-100 p-2 rounded">{success}</p>}
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                     <div className="rounded-md shadow-sm -space-y-px">
                         <div>
