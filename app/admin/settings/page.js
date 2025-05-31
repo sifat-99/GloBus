@@ -61,13 +61,13 @@ export default function AdminSettingsPage() {
 
     return (
         <div>
-            <h1 className="text-2xl font-bold mb-6">Admin Settings</h1>
+            <h1 className="text-xl sm:text-2xl font-bold mb-6">Admin Settings</h1>
             <p className="mb-4">Update your admin profile details below.</p>
 
             {error && <p className="mb-4 text-center text-red-500 bg-red-100 p-3 rounded">{error}</p>}
             {successMessage && <p className="mb-4 text-center text-green-500 bg-green-100 p-3 rounded">{successMessage}</p>}
 
-            <form onSubmit={handleSubmit} className="space-y-6 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <form onSubmit={handleSubmit} className="space-y-6 bg-white shadow-md rounded px-4 sm:px-8 pt-6 pb-8 mb-4">
                 <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                         Full Name

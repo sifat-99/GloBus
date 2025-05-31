@@ -77,8 +77,8 @@ export default function SellerProfilePage() {
 
     return (
         <div className="container mx-auto p-4">
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-3xl font-bold">Seller Profile</h1>
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-6 gap-4">
+                <h1 className="text-3xl font-bold text-center sm:text-left">Seller Profile</h1>
                 {!isEditing && <button onClick={() => setIsEditing(true)} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Edit Profile</button>}
             </div>
 
@@ -97,8 +97,8 @@ export default function SellerProfilePage() {
                     <div><label className="block text-sm font-medium">Email</label><input type="email" name="email" value={formData.email} readOnly className="mt-1 block w-full input input-bordered bg-gray-100" /></div>
                     <div><label className="block text-sm font-medium">Phone</label><input type="tel" name="phone" value={formData.phone} onChange={handleInputChange} className="mt-1 block w-full input input-bordered" /></div>
                     <div><label className="block text-sm font-medium">Business Address</label><textarea name="businessAddress" value={formData.businessAddress} onChange={handleInputChange} className="mt-1 block w-full textarea textarea-bordered"></textarea></div>
-                    <div><label className="block text-sm font-medium">Shop Description</label><textarea name="description" value={formData.description} onChange={handleInputChange} className="mt-1 block w-full textarea textarea-bordered"></textarea></div>
-                    <div className="flex items-center space-x-4">
+                    <div><label className="block text-sm font-medium">Shop Description</label><textarea name="description" value={formData.description} onChange={handleInputChange} rows="3" className="mt-1 block w-full textarea textarea-bordered"></textarea></div>
+                    <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
                         <button type="submit" disabled={updateStatus.loading} className="btn btn-success">{updateStatus.loading ? 'Saving...' : 'Save Changes'}</button>
                         <button type="button" onClick={() => setIsEditing(false)} className="btn btn-ghost">Cancel</button>
                     </div>

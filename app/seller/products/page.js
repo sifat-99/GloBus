@@ -68,13 +68,13 @@ export default function SellerProductsPage() {
 
 
     if (loading) return <div className="container mx-auto p-4 text-center">Loading products...</div>;
-    if (error) return <div className="container mx-auto p-4 text-center text-red-500">Error: {error}</div>;
+    if (error) return <div className="container mx-auto p-2 sm:p-4 text-center text-red-500">Error: {error}</div>;
 
     return (
-        <div className="container mx-auto p-4">
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-3xl font-bold">My Products</h1>
-                <Link href="/seller/products/new" className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors">
+        <div className="container mx-auto p-2 sm:p-4">
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-6 gap-3 sm:gap-0">
+                <h1 className="text-2xl sm:text-3xl font-bold">My Products</h1>
+                <Link href="/seller/products/new" className="px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base bg-green-500 text-white rounded hover:bg-green-600 transition-colors self-start sm:self-auto">
                     Add New Product
                 </Link>
             </div>
@@ -90,42 +90,42 @@ export default function SellerProductsPage() {
                     <table className="w-full text-sm text-left text-gray-500">
                         <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
-                                <th scope="col" className="px-6 py-3">Name</th>
-                                <th scope="col" className="px-6 py-3">Stock</th>
-                                <th scope="col" className="px-6 py-3">Price (BDT)</th>
-                                <th scope="col" className="px-6 py-3">Sold</th>
-                                <th scope="col" className="px-6 py-3">Status</th>
-                                <th scope="col" className="px-6 py-3">Actions</th>
+                                <th scope="col" className="px-3 py-2 md:px-6 md:py-3">Name</th>
+                                <th scope="col" className="px-3 py-2 md:px-6 md:py-3">Stock</th>
+                                <th scope="col" className="px-3 py-2 md:px-6 md:py-3">Price (BDT)</th>
+                                <th scope="col" className="px-3 py-2 md:px-6 md:py-3">Sold</th>
+                                <th scope="col" className="px-3 py-2 md:px-6 md:py-3">Status</th>
+                                <th scope="col" className="px-3 py-2 md:px-6 md:py-3">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {products.map(product => (
                                 <tr key={product._id} className="bg-white border-b hover:bg-gray-50">
-                                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                    <th scope="row" className="px-3 py-2 md:px-6 md:py-4 font-medium text-gray-900 whitespace-nowrap">
                                         {product.model || product.name || 'N/A'}
                                     </th>
-                                    <td className="px-6 py-4">{product.availability?.remaining ?? 'N/A'}</td>
-                                    <td className="px-6 py-4">
+                                    <td className="px-3 py-2 md:px-6 md:py-4">{product.availability?.remaining ?? 'N/A'}</td>
+                                    <td className="px-3 py-2 md:px-6 md:py-4">
                                         {product.discount?.discounted_price?.toFixed(2) ?? (product.price?.toFixed(2) ?? 'N/A')}
                                     </td>
-                                    <td className="px-6 py-4">{product.availability?.sold ?? 'N/A'}</td>
-                                    <td className="px-6 py-4">
-                                        <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
+                                    <td className="px-3 py-2 md:px-6 md:py-4">{product.availability?.sold ?? 'N/A'}</td>
+                                    <td className="px-3 py-2 md:px-6 md:py-4">
+                                        <span className={`px-2 py-1 text-xs sm:text-sm font-semibold rounded-full ${
                                             product.status === 'approved' ? 'bg-green-100 text-green-800' :
                                             product.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
                                             product.status === 'rejected' ? 'bg-red-100 text-red-800' :
                                             'bg-gray-100 text-gray-800'
                                         }`}>
-                                            {product.status || 'N/A'}
+                                            {product.status ? product.status.charAt(0).toUpperCase() + product.status.slice(1) : 'N/A'}
                                         </span>
                                     </td>
-                                    <td className="px-6 py-4 space-x-2 whitespace-nowrap">
-                                        <Link href={`/seller/products/edit/${product._id}`} className="font-medium text-indigo-600 hover:text-indigo-800 hover:underline">
+                                    <td className="px-3 py-2 md:px-6 md:py-4 space-x-1 md:space-x-2 whitespace-nowrap">
+                                        <Link href={`/seller/products/edit/${product._id}`} className="font-medium text-indigo-600 hover:text-indigo-800 hover:underline text-xs sm:text-sm">
                                             Edit
                                         </Link>
                                         <button
                                             onClick={() => handleDeleteProduct(product._id, product.model || product.name)}
-                                            className="font-medium text-red-600 hover:text-red-800 hover:underline"
+                                            className="font-medium text-red-600 hover:text-red-800 hover:underline text-xs sm:text-sm"
                                         >
                                             Delete
                                         </button>
@@ -135,7 +135,7 @@ export default function SellerProductsPage() {
                         </tbody>
                     </table>
                 </div>
-            ) : <p className="text-center text-gray-600">You have no products listed yet. Click &quot;Add New Product&quot; to get started!</p>}
+            ) : <p className="text-center text-gray-600 mt-4 text-sm sm:text-base">You have no products listed yet. Click &quot;Add New Product&quot; to get started!</p>}
         </div>
     );
 }

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import Link from 'next/link';
-import Image from 'next/image'; // If you have image URLs
+import Image from 'next/image';
 
 async function fetchData(url) {
     const response = await fetch(url);
@@ -67,20 +67,27 @@ export default function WishlistPage() {
 
     return (
         <div className="container mx-auto p-4">
-            <h1 className="text-3xl font-bold mb-6">My Wishlist</h1>
+            <h1 className="text-3xl font-bold mb-6 text-center sm:text-left">My Wishlist</h1>
             {wishlistItems.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {wishlistItems.map(item => (
                         <div key={item._id} className="p-4 border rounded-lg shadow flex flex-col">
                             {item.imageUrl && <Image src={item.imageUrl} alt={item.productName || 'Product Image'} width={200} height={200} className="w-full h-48 object-cover rounded mb-2" />}
-                            <h2 className="text-xl font-semibold">{item.productName || 'Product Name N/A'}</h2>
-                            <p className="text-gray-700">৳{item.price.toFixed(2)}</p>
-                            {item.addedDate && <p className="text-sm text-gray-500">Added: {new Date(item.addedDate).toLocaleDateString()}</p>}
-                            <div className="mt-3 flex-grow flex flex-col justify-end">
-                                <Link href={`/products/${item.productId}`} className="text-indigo-600 hover:text-indigo-800 mr-2">View Product</Link>
+                            <div className="flex-grow"> {/* Wraps content to allow actions to be pushed to the bottom */}
+                                <h2 className="text-xl font-semibold">{item.productName || 'Product Name N/A'}</h2>
+                                <p className="text-gray-700">৳{item.price.toFixed(2)}</p>
+                                {item.addedDate && <p className="text-sm text-gray-500 mb-2">Added: {new Date(item.addedDate).toLocaleDateString()}</p>}
+                            </div>
+                            <div className="mt-auto pt-3"> {/* mt-auto pushes this block to the bottom of the flex-col card */}
+                                <Link
+                                    href={`/products/${item.productId}`}
+                                    className="block w-full text-center py-2 px-3 text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-2"
+                                >
+                                    View Product
+                                </Link>
                                 <button
                                     onClick={() => handleRemoveFromWishlist(item._id)}
-                                    className="mt-2 text-sm text-red-500 hover:text-red-700"
+                                    className="block w-full text-center py-2 px-3 text-sm font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-500"
                                 >
                                     Remove from Wishlist
                                 </button>

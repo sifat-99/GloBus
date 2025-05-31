@@ -90,37 +90,37 @@ export default function AdminProductsPage() {
 
     return (
         <div>
-            <h1 className="text-2xl font-bold mb-6">Manage Products</h1>
+            <h1 className="text-xl sm:text-2xl font-bold mb-6">Manage Products</h1>
 
             {actionError && <p className="mb-4 text-center text-red-500 bg-red-100 p-2 rounded">{actionError}</p>}
             {actionSuccess && <p className="mb-4 text-center text-green-500 bg-green-100 p-2 rounded">{actionSuccess}</p>}
 
             {products.length === 0 && !loading ? (
-                <p>No products found. Ensure your &apos;products&apos; collection has data.</p>
+                <p className="text-center mt-4">No products found. Ensure your &apos;products&apos; collection has data.</p>
             ) : (
                 <>
                     <div className="overflow-x-auto shadow-md sm:rounded-lg">
                         <table className="w-full text-sm text-left text-gray-500 ">
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
                                 <tr>
-                                    <th scope="col" className="px-6 py-3">Product Name</th>
-                                    <th scope="col" className="px-6 py-3">Brand</th>
-                                    <th scope="col" className="px-6 py-3">Price</th>
-                                    <th scope="col" className="px-6 py-3">Status</th>
-                                    <th scope="col" className="px-6 py-3">Actions</th>
+                                    <th scope="col" className="px-3 py-2 md:px-6 md:py-3">Product Name</th>
+                                    <th scope="col" className="px-3 py-2 md:px-6 md:py-3">Brand</th>
+                                    <th scope="col" className="px-3 py-2 md:px-6 md:py-3">Price</th>
+                                    <th scope="col" className="px-3 py-2 md:px-6 md:py-3">Status</th>
+                                    <th scope="col" className="px-3 py-2 md:px-6 md:py-3">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {products.map((product) => (
                                     <tr key={product._id} className="bg-white border-b hover:bg-gray-50">
-                                        <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                        <th scope="row" className="px-3 py-2 md:px-6 md:py-4 font-medium text-gray-900 whitespace-nowrap">
                                             {product.model || product.name || 'N/A'}
                                         </th>
-                                        <td className="px-6 py-4">{product.brand || 'N/A'}</td>
-                                        <td className="px-6 py-4">
+                                        <td className="px-3 py-2 md:px-6 md:py-4">{product.brand || 'N/A'}</td>
+                                        <td className="px-3 py-2 md:px-6 md:py-4">
                                             ৳{product.discount?.discounted_price || product.price || 'N/A'}
                                         </td>
-                                        <td className="px-6 py-4">
+                                        <td className="px-3 py-2 md:px-6 md:py-4">
                                             <span className={`px-2 py-1 text-xs font-semibold rounded-full ${product.status === 'approved' ? 'bg-green-100 text-green-800' :
                                                 product.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
                                                     product.status === 'rejected' ? 'bg-red-100 text-red-800' :
@@ -129,7 +129,7 @@ export default function AdminProductsPage() {
                                                 {product.status || 'N/A'}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4 space-x-1 md:space-x-2 whitespace-nowrap">
+                                        <td className="px-3 py-2 md:px-6 md:py-4 space-x-1 md:space-x-2 whitespace-nowrap">
                                             {product.status !== 'approved' && (
                                                 <button
                                                     onClick={() => handleUpdateProductStatus(product._id, 'approved')}
@@ -168,7 +168,7 @@ export default function AdminProductsPage() {
                     </div>
 
                     {/* Pagination */}
-                    <div className="flex justify-between items-center mt-6">
+                    <div className="flex flex-col sm:flex-row justify-between items-center mt-6 gap-4 sm:gap-0">
                         <button
                             onClick={handlePreviousPage}
                             disabled={currentPage === 1 || loading}
@@ -176,7 +176,7 @@ export default function AdminProductsPage() {
                         >
                             Previous
                         </button>
-                        <span className="text-sm text-gray-700">
+                        <span className="text-xs sm:text-sm text-gray-700">
                             Page {currentPage} of {totalPages}
                         </span>
                         <button

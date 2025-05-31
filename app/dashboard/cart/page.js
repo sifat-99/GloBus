@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
-import Link from 'next/link';
 import Image from 'next/image'; // If you have image URLs
 
 async function fetchData(url) {
@@ -141,18 +140,18 @@ export default function CartPage() {
 
     return (
         <div className="container mx-auto p-4">
-            <h1 className="text-3xl font-bold mb-6">My Cart</h1>
+            <h1 className="text-3xl font-bold mb-6 text-center sm:text-left">My Cart</h1>
             {cartItems.length > 0 ? (
                 <div className="space-y-4">
                     {cartItems.map(item => {
                         const subtotal = calculateSubtotal(item);
                         return (
                             <div key={item._id} className="flex flex-col md:flex-row items-start md:items-center p-4 border rounded-lg shadow gap-4">
-                                <input
+                                <input // Checkbox
                                     type="checkbox"
                                     checked={item.isSelected}
                                     onChange={() => handleToggleSelectItem(item._id)}
-                                    className="form-checkbox h-5 w-5 text-indigo-600 mr-2 self-center md:self-auto"
+                                    className="form-checkbox h-5 w-5 text-indigo-600 self-center md:self-auto"
                                 />
                                 {item.imageUrl && (
                                     <Image
@@ -160,7 +159,7 @@ export default function CartPage() {
                                         alt={item.productName || 'Product Image'}
                                         width={80}
                                         height={80}
-                                        className="rounded object-cover"
+                                        className="rounded object-cover self-center md:self-auto"
                                     />
                                 )}
                                 <div className="flex-grow">
@@ -172,7 +171,7 @@ export default function CartPage() {
                                         <button onClick={() => handleUpdateQuantity(item._id, item.quantity, 1)} className="px-2 py-1 border rounded hover:bg-gray-100">+</button>
                                     </div>
                                 </div>
-                                <div className="text-right md:text-left">
+                                <div className="text-right w-full md:w-auto md:text-right">
                                     <p className="text-lg font-semibold">Subtotal: ৳{subtotal.toFixed(2)}</p>
                                     <button
                                         onClick={() => handleRemoveItem(item._id)}
@@ -184,11 +183,11 @@ export default function CartPage() {
                             </div>
                         );
                     })}
-                    <div className="text-right mt-6">
-                        <p className="text-xl font-semibold mb-2">Total for selected items: ৳{calculateTotal().toFixed(2)}</p>
+                    <div className="mt-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 pt-4 border-t">
+                        <p className="text-xl font-semibold text-center sm:text-left">Total for selected items: ৳{calculateTotal().toFixed(2)}</p>
                         <button
                             onClick={handleProceedToCheckout}
-                            className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
+                            className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
                             disabled={cartItems.filter(item => item.isSelected).length === 0}
                         >
                             Proceed to Checkout with Selected Items

@@ -148,17 +148,17 @@ export default function EditProductPage() {
     const labelClass = "block text-sm font-medium text-gray-700";
 
     if (isFetching) {
-        return <div className="container mx-auto p-4 text-center">Loading product data...</div>;
+        return <div className="container mx-auto p-4 sm:p-6 text-center text-lg">Loading product data...</div>;
     }
     // If there was an error fetching and we don't have a model name (critical data), show error.
     if (error && !productData.model) {
-        return <div className="container mx-auto p-4 text-center text-red-500">{error}</div>;
+        return <div className="container mx-auto p-4 sm:p-6 text-center text-red-500 text-lg">{error}</div>;
     }
 
     return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-3xl font-bold mb-6">Edit Product: {productData.model || 'Loading...'}</h1>
-            <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow-md">
+        <div className="container mx-auto p-2 sm:p-4">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-6">Edit Product: {productData.model || 'Loading...'}</h1>
+            <form onSubmit={handleSubmit} className="space-y-6 bg-white p-4 sm:p-6 rounded-lg shadow-md">
                 {error && <p className="text-red-500 bg-red-100 p-3 rounded-md mb-4">{error}</p>}
 
                 {/* Form fields are identical to AddNewProductPage, just pre-filled */}
@@ -174,7 +174,7 @@ export default function EditProductPage() {
                 <div><label htmlFor="description" className={labelClass}>Description</label><textarea name="description" id="description" rows="4" value={productData.description} onChange={handleChange} className={inputClass}></textarea></div>
                 <div><label htmlFor="technology" className={labelClass}>Technology / Key Specs</label><textarea name="technology" id="technology" rows="3" value={productData.technology} onChange={handleChange} className={inputClass}></textarea></div>
 
-                <fieldset className="border p-4 rounded-md">
+                <fieldset className="border p-3 sm:p-4 rounded-md">
                     <legend className="text-lg font-medium text-gray-900 px-2">Warranty</legend>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
                         <div><label htmlFor="warranty_parts" className={labelClass}>Parts Warranty</label><input type="text" name="warranty_parts" id="warranty_parts" value={productData.warranty_parts} onChange={handleChange} className={inputClass} placeholder="e.g., 1 year" /></div>
@@ -182,7 +182,7 @@ export default function EditProductPage() {
                     </div>
                 </fieldset>
 
-                <fieldset className="border p-4 rounded-md">
+                <fieldset className="border p-3 sm:p-4 rounded-md">
                     <legend className="text-lg font-medium text-gray-900 px-2">Pricing & Availability</legend>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-2">
                         <div><label htmlFor="discount_original_price" className={labelClass}>Original Price (BDT)</label><input type="number" name="discount_original_price" id="discount_original_price" value={productData.discount_original_price} onChange={handleChange} className={inputClass} min="0" required /></div>
@@ -191,7 +191,7 @@ export default function EditProductPage() {
                     </div>
                 </fieldset>
 
-                <fieldset className="border p-4 rounded-md">
+                <fieldset className="border p-3 sm:p-4 rounded-md">
                     <legend className="text-lg font-medium text-gray-900 px-2">Additional Details</legend>
                     <div className="space-y-4 mt-2">
                         <div><label htmlFor="features" className={labelClass}>Features (comma-separated)</label><input type="text" name="features" id="features" value={productData.features} onChange={handleChange} className={inputClass} placeholder="e.g., Feature 1, Feature 2" /></div>
@@ -202,7 +202,7 @@ export default function EditProductPage() {
                     </div>
                 </fieldset>
 
-                <div className="flex justify-end space-x-3">
+                <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 mt-4">
                     <button
                         type="button"
                         onClick={() => router.back()}

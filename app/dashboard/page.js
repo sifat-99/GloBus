@@ -93,16 +93,16 @@ export default function UserDashboardPage() {
 
     return (
         <div className="container mx-auto p-4">
-            <h1 className="text-3xl font-bold mb-6">My Profile</h1>
+            <h1 className="text-3xl font-bold mb-6 text-center sm:text-left">My Profile</h1>
 
             {/* Profile Section */}
             <section className="mb-8 p-4 border rounded-lg shadow">
-                <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-2xl font-semibold">Profile Details</h2>
+                <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-4 gap-3 sm:gap-0">
+                    <h2 className="text-2xl font-semibold text-center sm:text-left">Profile Details</h2>
                     {!isEditing && profile && (
                         <button
                             onClick={() => setIsEditing(true)}
-                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 w-full sm:w-auto"
                         >
                             Edit Profile
                         </button>
@@ -142,11 +142,11 @@ export default function UserDashboardPage() {
                             <label htmlFor="deliveryAddress" className="block text-sm font-medium text-gray-700">Default Delivery Address</label>
                             <textarea name="deliveryAddress" id="deliveryAddress" rows="3" value={formData.deliveryAddress} onChange={handleInputChange} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
                         </div>
-                        <div className="flex items-center space-x-4">
-                            <button type="submit" disabled={updateStatus.loading} className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-400">
+                        <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
+                            <button type="submit" disabled={updateStatus.loading} className="w-full sm:w-auto px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 disabled:bg-gray-400">
                                 {updateStatus.loading ? 'Saving...' : 'Save Changes'}
                             </button>
-                            <button type="button" onClick={() => { setIsEditing(false); /* Reset form if needed */ }} className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">
+                            <button type="button" onClick={() => { setIsEditing(false); /* Reset form if needed */ }} className="w-full sm:w-auto px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">
                                 Cancel
                             </button>
                         </div>
@@ -156,23 +156,6 @@ export default function UserDashboardPage() {
                 )}
             </section>
 
-            <style jsx>{`
-                .container { max-width: 900px; }
-                .text-red-500 { color: #ef4444; }
-                .font-bold { font-weight: bold; }
-                .mb-2 { margin-bottom: 0.5rem; }
-                .mb-3 { margin-bottom: 0.75rem; }
-                .mb-6 { margin-bottom: 1.5rem; }
-                .mb-8 { margin-bottom: 2rem; }
-                .p-4 { padding: 1rem; }
-                .border { border: 1px solid #e5e7eb; }
-                .rounded-lg { border-radius: 0.5rem; }
-                .shadow { box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06); }
-                .text-blue-600 { color: #2563eb; }
-                .hover\\:underline:hover { text-decoration: underline; }
-                .inline-block { display: inline-block; }
-                .mt-2 { margin-top: 0.5rem; }
-            `}</style>
         </div>
     );
 }

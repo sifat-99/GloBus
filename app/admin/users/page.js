@@ -63,7 +63,7 @@ export default function AdminUsersPage() {
 
     return (
         <div>
-            <h1 className="text-2xl font-bold mb-6">Manage Users</h1>
+            <h1 className="text-xl sm:text-2xl font-bold mb-6">Manage Users</h1>
 
             {actionMessage.text && (
                 <p className={`mb-4 text-center p-2 rounded ${actionMessage.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
@@ -72,31 +72,31 @@ export default function AdminUsersPage() {
             )}
 
             {users.length === 0 && !loading ? (
-                <p>No users found.</p>
+                <p className="text-center mt-4">No users found.</p>
             ) : (
                 <div className="overflow-x-auto shadow-md sm:rounded-lg">
                     <table className="w-full text-sm text-left text-gray-500">
                         <thead className="text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
-                                <th scope="col" className="px-6 py-3">Name</th>
-                                <th scope="col" className="px-6 py-3">Email</th>
-                                <th scope="col" className="px-6 py-3">Role</th>
-                                <th scope="col" className="px-6 py-3">Status</th>
-                                <th scope="col" className="px-6 py-3">Actions</th>
+                                <th scope="col" className="px-3 py-2 md:px-6 md:py-3">Name</th>
+                                <th scope="col" className="px-3 py-2 md:px-6 md:py-3">Email</th>
+                                <th scope="col" className="px-3 py-2 md:px-6 md:py-3">Role</th>
+                                <th scope="col" className="px-3 py-2 md:px-6 md:py-3">Status</th>
+                                <th scope="col" className="px-3 py-2 md:px-6 md:py-3">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {users.map((user) => (
                                 <tr key={user._id} className="bg-white border-b hover:bg-gray-50">
-                                    <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">{user.name || 'N/A'}</td>
-                                    <td className="px-6 py-4">{user.email}</td>
-                                    <td className="px-6 py-4">{user.role}</td>
-                                    <td className="px-6 py-4">
+                                    <td className="px-3 py-2 md:px-6 md:py-4 font-medium text-gray-900 whitespace-nowrap">{user.name || 'N/A'}</td>
+                                    <td className="px-3 py-2 md:px-6 md:py-4">{user.email}</td>
+                                    <td className="px-3 py-2 md:px-6 md:py-4">{user.role}</td>
+                                    <td className="px-3 py-2 md:px-6 md:py-4">
                                         <span className={`px-2 py-1 text-xs font-semibold rounded-full ${user.isActive === false ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}`}>
                                             {user.isActive === false ? 'Inactive' : 'Active'}
                                         </span>
                                     </td>
-                                    <td className="px-6 py-4 space-x-1 md:space-x-2 whitespace-nowrap">
+                                    <td className="px-3 py-2 md:px-6 md:py-4 space-x-1 md:space-x-2 whitespace-nowrap">
                                         {user.role === 'user' && (
                                             <button onClick={() => handleUpdateUser(user._id, { role: 'seller' })} className="font-medium text-blue-600 hover:underline text-xs sm:text-sm">Make Seller</button>
                                         )}
