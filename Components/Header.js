@@ -258,7 +258,7 @@ export default function Header() {
                     </MenuItem>
                 ]
                 : (
-                    <MenuItem onClick={() => { handleMobileMenuClose(); router.push('/login'); }}>
+                    <MenuItem onClick={() => { handleMobileMenuClose(); window.location.href = '/login'; }}>
                         <IconButton size="large" aria-label="login" color="inherit">
                             <AccountCircle />
                         </IconButton>
