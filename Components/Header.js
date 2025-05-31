@@ -91,6 +91,7 @@ export default function Header() {
     const encodeCategory = (categoryName) => encodeURIComponent(categoryName);
 
     const categories = [
+        { name: 'Home', href: '/' },
         { name: 'Air Conditioner', href: `/products/category/${encodeCategory('Air Conditioner')}` },
         { name: 'Refrigerator', href: `/products/category/${encodeCategory('Refrigerator')}`, },
         { name: 'Washing Machine', href: `/products/category/${encodeCategory('Washing Machine')}` },
