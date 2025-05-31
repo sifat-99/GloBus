@@ -19,9 +19,12 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import LogoutIcon from '@mui/icons-material/Logout';
 import RightArrowIcon from '@mui/icons-material/ArrowForward';
 import { ShoppingBag } from '@mui/icons-material';
-import { Button, List, ListItemButton, ListItemText, SwipeableDrawer } from '@mui/material';
+import { Button, List, ListItemButton, ListItemText, SwipeableDrawer, Paper } from '@mui/material';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation'; // For navigation
+import axios from 'axios'; // For API calls
+
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -63,7 +66,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-
+// Debounce helper function
+const debounce = (func, delay) => {
+    let timeout;
+    return (...args) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+    };
+};
 
 
 export default function Header() {
@@ -72,6 +82,10 @@ export default function Header() {
     const [cartItems, setCartItems] = React.useState(0);
     const auth = useAuth(); // Use the Auth context
     const [drawerOpen, setDrawerOpen] = React.useState(false);
+    const router = useRouter();
+
+    const [allProducts, setAllProducts] = React.useState([]);
+    const [isInitialLoading, setIsInitialLoading] = React.useState(true);
 
     // Define encodeCategory function
     const encodeCategory = (categoryName) => encodeURIComponent(categoryName);
@@ -89,6 +103,12 @@ export default function Header() {
 
 
     ];
+
+    // State for search functionality
+    const [searchTerm, setSearchTerm] = React.useState('');
+    const [suggestions, setSuggestions] = React.useState([]);
+    const [showSuggestionsPanel, setShowSuggestionsPanel] = React.useState(false);
+    const searchRef = React.useRef(null);
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -123,6 +143,69 @@ export default function Header() {
         ) { return; }
         setDrawerOpen(open);
     };
+
+    // Fetch all products on component mount
+    React.useEffect(() => {
+        const fetchAllProducts = async () => {
+            setIsInitialLoading(true);
+            try {
+                // Assuming '/api/products' fetches all (or a relevant subset of) products
+                const response = await axios.get('/api/products');
+                if (response.data && Array.isArray(response.data)) {
+                    setAllProducts(response.data);
+                } else {
+                    console.error("Failed to fetch all products: Invalid data format", response.data);
+                    setAllProducts([]);
+                }
+            } catch (error) {
+                console.error("Failed to fetch all products:", error);
+                setAllProducts([]); // Set to empty array on error
+            } finally {
+                setIsInitialLoading(false);
+            }
+        };
+        fetchAllProducts();
+    }, []);
+
+    const handleSearchInputChange = (event) => {
+        const newSearchTerm = event.target.value;
+        setSearchTerm(newSearchTerm);
+
+        if (newSearchTerm.trim() === "" || isInitialLoading) {
+            setSuggestions([]);
+            setShowSuggestionsPanel(false);
+            return;
+        }
+
+        const filteredSuggestions = allProducts.filter(product =>
+            (product.model && product.model.toLowerCase().includes(newSearchTerm.toLowerCase())) ||
+            (product.brand && product.brand.toLowerCase().includes(newSearchTerm.toLowerCase()))
+        ).slice(0, 10); // Show top 10 suggestions
+
+        setSuggestions(filteredSuggestions);
+        setShowSuggestionsPanel(true);
+    };
+
+    const handleSuggestionItemClick = (productId) => {
+        router.push(`/products/${productId}`);
+        setSearchTerm('');
+        setSuggestions([]);
+        setShowSuggestionsPanel(false);
+    };
+
+    // Effect to handle clicks outside the search suggestions panel
+    React.useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (searchRef.current && !searchRef.current.contains(event.target)) {
+                setShowSuggestionsPanel(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
         auth && auth.isAuthenticated ? (<Menu
@@ -296,15 +379,55 @@ export default function Header() {
                     >
                         GloBus
                     </Typography>
-                    <Search>
+                    <Search ref={searchRef}>
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>
                         <StyledInputBase
                             placeholder="Search…"
                             inputProps={{ 'aria-label': 'search' }}
+                            value={searchTerm}
+                            onChange={handleSearchInputChange}
+                            onFocus={() => {
+                                if (searchTerm.trim() && suggestions.length > 0 && !isInitialLoading) {
+                                    setShowSuggestionsPanel(true);
+                                }
+                            }}
                             className='w-fit rounded-2xl'
                         />
+                        {showSuggestionsPanel && (
+                            <Paper
+                                elevation={4}
+                                sx={{
+                                    position: 'absolute',
+                                    top: '100%',
+                                    left: 0,
+                                    right: 0,
+                                    zIndex: (theme) => theme.zIndex.modal + 1, // Ensure it's above other elements
+                                    mt: 0.5,
+                                    maxHeight: '300px',
+                                    overflowY: 'auto',
+                                    bgcolor: 'background.paper',
+                                }}
+                            >
+                                <List dense component="nav" aria-label="product suggestions">
+                                    {isInitialLoading && searchTerm.trim() !== '' && (
+                                        <ListItemButton disabled><ListItemText primary="Loading products..." /></ListItemButton>
+                                    )}
+                                    {!isInitialLoading && suggestions.length === 0 && searchTerm.trim() !== '' && (
+                                        <ListItemButton disabled><ListItemText primary={`No results for "${searchTerm}"`} /></ListItemButton>
+                                    )}
+                                    {!isInitialLoading && suggestions.map((product) => (
+                                        <ListItemButton
+                                            key={product._id} // Assuming products have a unique _id
+                                            onClick={() => handleSuggestionItemClick(product._id)}
+                                        >
+                                            <ListItemText primary={product.model} secondary={product.brand} />
+                                        </ListItemButton>
+                                    ))}
+                                </List>
+                            </Paper>
+                        )}
                     </Search>
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>

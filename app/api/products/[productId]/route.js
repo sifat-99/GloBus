@@ -7,18 +7,26 @@ function isValidObjectId(id) {
 }
 
 export async function GET(request, { params }) {
-    const { productId } = params;
-
-    if (!isValidObjectId(productId)) {
-        return NextResponse.json({ message: 'Invalid product ID format.' }, { status: 400 });
-    }
+    const { productId: identifier } = await params; // Renamed to identifier for clarity
 
     try {
         const db = await getDb();
-        const product = await db.collection('products').findOne({
-            _id: new ObjectId(productId),
-            status: 'approved' // Ensure only approved products are publicly accessible
-        });
+        let query;
+
+        if (isValidObjectId(identifier)) {
+            query = {
+                _id: new ObjectId(identifier),
+                status: 'approved' // Ensure only approved products are publicly accessible
+            };
+        } else {
+            // If not a valid ObjectId, assume it's a product name (model)
+            // Use a case-insensitive regex for searching by name
+            query = {
+                model: { $regex: `^${identifier}$`, $options: 'i' }, // Exact match, case-insensitive
+                status: 'approved'
+            };
+        }
+        const product = await db.collection('products').findOne(query);
 
         if (!product) {
             return NextResponse.json({ message: 'Product not found or not available.' }, { status: 404 });
@@ -34,7 +42,7 @@ export async function GET(request, { params }) {
         return NextResponse.json(product, { status: 200 });
 
     } catch (error) {
-        console.error(`Error fetching product ${productId}:`, error);
+        console.error(`Error fetching product ${identifier}:`, error);
         return NextResponse.json({ message: 'Failed to fetch product details.', details: error.message }, { status: 500 });
     }
 }
