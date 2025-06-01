@@ -85,8 +85,8 @@ export async function middleware(request) {
             console.warn(`Unauthorized access attempt to ${pathname} by user ${userPayload.email} (Role: ${userPayload.role})`);
             // Redirect to their respective "home" dashboard or an unauthorized page
             let unauthorizedRedirectPath = '/login'; // Fallback
-            if (userPayload.role === 'admin') unauthorizedRedirectPath = '/admin';
-            else if (userPayload.role === 'seller') unauthorizedRedirectPath = '/seller';
+            if (userPayload.role === 'admin') unauthorizedRedirectPath = '/admin/dashboard';
+            else if (userPayload.role === 'seller') unauthorizedRedirectPath = '/seller/dashboard';
             else if (userPayload.role === 'user') unauthorizedRedirectPath = '/dashboard';
 
             const redirectUrl = new URL(unauthorizedRedirectPath, request.url);

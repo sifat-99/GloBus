@@ -1,4 +1,3 @@
-// app/admin/page.js
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -13,13 +12,13 @@ export default function AdminDashboardPage() {
     const [actionError, setActionError] = useState(null);
     const [actionSuccess, setActionSuccess] = useState(null);
 
-    const limit = 10; // Products per page
+    const limit = 10;
 
     useEffect(() => {
         const fetchProducts = async () => {
             setLoading(true);
             setError(null);
-            setActionError(null); // Clear action messages on page change/reload
+            setActionError(null);
             setActionSuccess(null);
             try {
                 const response = await axios.get(`/api/admin/products?page=${currentPage}&limit=${limit}`);
@@ -57,12 +56,12 @@ export default function AdminDashboardPage() {
             const response = await axios.delete(`/api/admin/products/${productId}`);
             setActionSuccess(response.data.message || 'Product deleted successfully.');
             setProducts(prevProducts => prevProducts.filter(p => p._id !== productId));
-            // If the last item on a page is deleted, and it's not the first page, consider refetching or going to prev page
+
             if (products.length === 1 && currentPage > 1) {
-                setCurrentPage(currentPage - 1); // Or simply refetch current page data if totalPages might change
+                setCurrentPage(currentPage - 1);
             } else if (products.length === 1 && currentPage === 1 && totalPages > 1) {
-                // If it was the only item on the first page but there are other pages, refetch might be needed if totalPages changes
-                // For simplicity, current behavior is okay.
+                setCurrentPage(1);
+
             }
         } catch (err) {
             setActionError(err.response?.data?.message || 'Failed to delete product.');

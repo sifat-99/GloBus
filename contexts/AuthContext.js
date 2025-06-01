@@ -1,4 +1,3 @@
-// contexts/AuthContext.js
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
@@ -9,11 +8,10 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true); // To handle initial auth state check
+    const [loading, setLoading] = useState(true);
     const router = useRouter();
 
     useEffect(() => {
-        // Check for user in localStorage on initial load
         try {
             const storedUser = localStorage.getItem('user');
             if (storedUser) {
@@ -21,7 +19,7 @@ export const AuthProvider = ({ children }) => {
             }
         } catch (error) {
             console.error("Failed to parse user from localStorage", error);
-            localStorage.removeItem('user'); // Clear corrupted item
+            localStorage.removeItem('user');
         } finally {
             setLoading(false);
         }
@@ -30,11 +28,6 @@ export const AuthProvider = ({ children }) => {
     const login = (userData) => {
         localStorage.setItem('user', JSON.stringify(userData));
         setUser(userData);
-        // Redirect logic can be handled by the page calling login or here
-        // Example:
-        // if (userData.role === 'admin') router.push('/admin');
-        // else if (userData.role === 'seller') router.push('/seller');
-        // else router.push('/dashboard');
     };
 
     const logout = async () => {
@@ -51,11 +44,11 @@ export const AuthProvider = ({ children }) => {
 
     const value = {
         user,
-        setUser, // You might not need to expose setUser directly if login/logout handle it
+        setUser,
         login,
         logout,
         isAuthenticated: !!user,
-        loading, // Expose loading state for initial auth check
+        loading,
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
@@ -67,9 +60,6 @@ export const useAuth = () => {
         throw new Error('useAuth must be used within an AuthProvider');
     }
     if (context === null && process.env.NODE_ENV === 'development') {
-        // This warning helps during development if the provider is missing.
-        // In Next.js 13+ with server components, context might be null initially on the server.
-        // The client-side useEffect in AuthProvider will set the actual context value.
         console.warn('AuthContext is null, ensure AuthProvider wraps this component.');
     }
     return context;
