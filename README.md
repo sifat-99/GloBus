@@ -1,1 +1,8 @@
-https://bubtedubd-my.sharepoint.com/:p:/g/personal/22235103364_cse_bubt_edu_bd/EUDM9F1NzgBGuXnq9mllA80BGZrsBjHbAUgZ0nY7sIbeyw?e=VIypTL
+Seller: seller@gmail.com
+Pass: Seller@12
+
+User: user@gmail.com
+Pass: User@12
+
+Admin: admin@gmail.com
+Pass: Admin@12
