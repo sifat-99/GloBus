@@ -29,6 +29,9 @@ export async function POST(request) {
         if (!isPasswordValid) {
             return NextResponse.json({ message: 'Invalid credentials' }, { status: 401 }); // Incorrect password
         }
+        if(user.isActive === false) {
+            return NextResponse.json({ message: 'Your account is inactive. Please contact support.' }, { status: 403 });
+        }
 
         const { password: _, ...userWithoutPassword } = user; // Exclude password from response
 

@@ -104,11 +104,11 @@ export default function AdminUsersPage() {
                                             <button onClick={() => handleUpdateUser(user._id, { role: 'user' })} className="font-medium text-blue-600 hover:underline text-xs sm:text-sm">Make User</button>
                                         )}
                                         {/* Consider if admin should change other admins' roles or their own status via this UI */}
-                                        {/* {user.isActive !== false ? (
+                                        {user.isActive !== false ? (
                                             <button onClick={() => handleUpdateUser(user._id, { isActive: false })} className="font-medium text-yellow-600 hover:underline text-xs sm:text-sm">Deactivate</button>
                                         ) : (
                                             <button onClick={() => handleUpdateUser(user._id, { isActive: true })} className="font-medium text-green-600 hover:underline text-xs sm:text-sm">Activate</button>
-                                        )} */}
+                                        )}
                                         <button onClick={() => handleDeleteUser(user._id)} className="font-medium text-red-600 hover:underline text-xs sm:text-sm">Delete</button>
                                     </td>
                                 </tr>
