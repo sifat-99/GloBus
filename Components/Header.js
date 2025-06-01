@@ -87,6 +87,8 @@ export default function Header() {
     const [allProducts, setAllProducts] = React.useState([]);
     const [isInitialLoading, setIsInitialLoading] = React.useState(true);
 
+
+
     // Define encodeCategory function
     const encodeCategory = (categoryName) => encodeURIComponent(categoryName);
 
@@ -357,7 +359,7 @@ export default function Header() {
         return <Box sx={{ flexGrow: 1, maxWidth: '100%' }} className='mx-auto' ><AppBar position="static"><Toolbar><Typography>Loading...</Typography></Toolbar></AppBar></Box>; // Or a more sophisticated loader
     }
     return (
-        <Box sx={{ flexGrow: 1, maxWidth: '100%' }} className='mx-auto' >
+        <Box sx={{ flexGrow: 1, maxWidth: '100%' }} className='mx-auto sticky top-0 z-50' >
             <AppBar position="static">
                 <Toolbar>
                     <IconButton
@@ -432,11 +434,21 @@ export default function Header() {
                     </Search>
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
-                        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                            <Badge badgeContent={cartItems} color="error">
-                                <ShoppingBag />
-                            </Badge>
-                        </IconButton>
+                        {
+                            auth && auth.isAuthenticated && auth.user?.role === 'user' && (
+                                <IconButton
+                                    size="large"
+                                    aria-label="cart"
+                                    color="inherit"
+                                    component={Link}
+                                    href="/dashboard/cart"
+                                >
+                                    <Badge badgeContent={cartItems} color="error">
+                                        <ShoppingBag />
+                                    </Badge>
+                                </IconButton>
+                            )
+                        }
                         <IconButton
                             size="large"
                             aria-label="show 17 new notifications"

@@ -7,6 +7,7 @@ import Image from 'next/image'; // Using next/image for optimization
 import Link from 'next/link'; // Import Link for navigation
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ProductDetailPage({ params: paramsPromise }) {
     const [product, setProduct] = useState(null);
@@ -16,6 +17,21 @@ export default function ProductDetailPage({ params: paramsPromise }) {
     const [relatedProducts, setRelatedProducts] = useState([]);
     const [loadingRelated, setLoadingRelated] = useState(false);
 
+    const mainContentVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+    };
+
+    const relatedSectionVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.2, staggerChildren: 0.1 } }
+    };
+
+    const listItemVariants = {
+        initial: { opacity: 0, y: 10 },
+        animate: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+        exit: { opacity: 0, y: -10, transition: { duration: 0.2 } }
+    };
     const params = React.use(paramsPromise);
     const productId = params.productId;
 
@@ -219,109 +235,117 @@ export default function ProductDetailPage({ params: paramsPromise }) {
     };
 
     return (
-        <main className="container mx-auto p-4 md:p-8 flex-grow"> {/* Added flex-grow */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Image container with hover zoom effect */}
-                <div className="rounded-lg overflow-hidden shadow-lg group relative w-full md:w-5/6 lg:w-4/5 mx-auto h-80 md:h-96"> {/* Adjusted width and height, added group and relative */}
-                    <Image src={product?.image_url} alt={product.model} layout="fill" objectFit="contain" className="transition-transform duration-500 ease-in-out group-hover:scale-125" />
+        <motion.main
+            className="container mx-auto p-4 md:p-8 flex-grow"
+            variants={mainContentVariants}
+            initial="hidden"
+            animate="visible"
+        >
+            <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <motion.div
+                    className="rounded-lg overflow-hidden shadow-lg group relative w-full md:w-5/6 lg:w-4/5 mx-auto h-80 md:h-96"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                >
+                    <Image src={product?.image_url} alt={product.model} layout="fill" objectFit="contain" className="transition-transform duration-300 ease-in-out group-hover:scale-110" />
                     {/* layout="fill" and objectFit="contain" for better responsive handling within fixed container.
                         group-hover:scale-125 for zoom effect */}
-                </div>
-                <div className="space-y-4">
-                    <h1 className="text-3xl font-bold text-gray-800">{product.model}</h1>
-                    {/* Brand moved to details table */}
+                </motion.div>
+                <motion.div className="space-y-4">
+                    <motion.h1 layout="position" className="text-3xl font-bold text-gray-800">{product.model}</motion.h1>
                     <div className="flex items-center gap-2">
                         {Array.from({ length: 5 }).map((_, i) => (
                             <Star key={i} size={20} fill={i < Math.round(product.ratings.stars) ? 'orange' : 'gray'} className="text-yellow-500" />
                         ))}
                         <span className="text-gray-600">({product.ratings.total_reviews} reviews)</span>
                     </div>
-                    {/* Description moved to details table or a dedicated section below */}
                     <div>
-                        <span className="text-2xl font-bold text-green-600">৳{product.discount.discounted_price}</span>
+                        <motion.span layout="position" className="text-2xl font-bold text-green-600">৳{product.discount.discounted_price}</motion.span>
                         {product.discount.percentage > 0 && (
-                            <span className="text-lg line-through text-gray-400 ml-2">৳{product.discount.original_price}</span>
+                            <motion.span layout="position" className="text-lg line-through text-gray-400 ml-2">৳{product.discount.original_price}</motion.span>
                         )}
                         {product.discount.percentage > 0 && (
-                            <span className="bg-red-100 text-red-700 text-xs px-2 py-1 rounded ml-2">
+                            <motion.span layout="position" className="bg-red-100 text-red-700 text-xs px-2 py-1 rounded ml-2">
                                 {product.discount.percentage}% OFF
-                            </span>
+                            </motion.span>
                         )}
                     </div>
                     <div className='flex  gap-2'>
-                        <p className="text-gray-600">Available: {product.availability.remaining} pice       ||</p>
+                        <p className="text-gray-600">Available: {product.availability.remaining} piece       ||</p>
                         <p className="text-green-600">Sold: {product.availability.sold}</p>
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-4 pt-4"> {/* Responsive flex direction */}
-                        <button onClick={handleAddToCart} className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg flex items-center gap-2 transition duration-150">
+                    <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={handleAddToCart} className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition duration-150">
                             <ShoppingCart size={20} /> Add to Cart
-                        </button>
-                        <button onClick={handleAddToWishlist} className="border border-gray-300 hover:bg-gray-100 text-gray-700 font-semibold py-3 px-6 rounded-lg flex items-center gap-2 transition duration-150">
+                        </motion.button>
+                        <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={handleAddToWishlist} className="border border-gray-300 hover:bg-gray-100 text-gray-700 font-semibold py-3 px-6 rounded-lg flex items-center justify-center gap-2 transition duration-150">
                             <Heart size={20} fill={isWishlisted ? 'red' : 'none'} /> Wishlist
-                        </button>
+                        </motion.button>
                     </div>
-                </div>
-            </div>
+                </motion.div>
+            </motion.div>
 
             {/* Product Details Table Section */}
-            <div className="mt-12 bg-white shadow-lg rounded-lg p-6">
+            <motion.div className="mt-12 bg-white shadow-lg rounded-lg p-6" variants={mainContentVariants}>
                 <h2 className="text-2xl font-bold text-gray-800 mb-6">Product Specifications</h2>
                 <table className="w-full">
                     <tbody>
-                        {renderDetailRow("Brand", product.brand)}
-                        {renderDetailRow("Model", product.model)}
-                        {renderDetailRow("Category", product.category)}
-                        {renderDetailRow("Type", product.type)}
-                        {renderDetailRow("Product ID (SKU)", product.product_id)}
-                        {product.description && renderDetailRow("Description", product.description)}
-                        {product.technology && renderDetailRow("Technology / Key Specs", product.technology)}
-                        {product.warranty?.parts && renderDetailRow("Parts Warranty", product.warranty.parts)}
-                        {product.warranty?.service && renderDetailRow("Service Warranty", product.warranty.service)}
-                        {renderArrayDetailRow("Badges", product.badges)}
-                        {renderArrayDetailRow("Features", product.features)}
-                        {renderArrayDetailRow("Labels", product.labels)}
-                        {renderArrayDetailRow("Service Includes", product.service_includes)}
-                        {renderDetailRow("Vendor", product.vendor)}
-                        {/* You can add more rows for other details like ratings, availability if needed here,
-                            or keep them in their current positions if preferred. */}
+                        <AnimatePresence>
+                            {renderDetailRow("Brand", product?.brand) && <motion.tr key="brand-detail" layout variants={listItemVariants}>{renderDetailRow("Brand", product?.brand)}</motion.tr>}
+                            {renderDetailRow("Model", product?.model) && <motion.tr key="model-detail" layout variants={listItemVariants}>{renderDetailRow("Model", product?.model)}</motion.tr>}
+                            {renderDetailRow("Category", product?.category) && <motion.tr key="category-detail" layout variants={listItemVariants}>{renderDetailRow("Category", product?.category)}</motion.tr>}
+                            {renderDetailRow("Type", product?.type) && <motion.tr key="type-detail" layout variants={listItemVariants}>{renderDetailRow("Type", product?.type)}</motion.tr>}
+                            {renderDetailRow("Product ID (SKU)", product?.product_id) && <motion.tr key="sku-detail" layout variants={listItemVariants}>{renderDetailRow("Product ID (SKU)", product?.product_id)}</motion.tr>}
+                            {product.description && renderDetailRow("Description", product?.description) && <motion.tr key="description-detail" layout variants={listItemVariants}>{renderDetailRow("Description", product?.description)}</motion.tr>}
+                            {product.technology && renderDetailRow("Technology / Key Specs", product?.technology) && <motion.tr key="tech-detail" layout variants={listItemVariants}>{renderDetailRow("Technology / Key Specs", product.technology)}</motion.tr>}
+                            {product.warranty?.parts && renderDetailRow("Parts Warranty", product.warranty.parts) && <motion.tr key="parts-warranty-detail" layout variants={listItemVariants}>{renderDetailRow("Parts Warranty", product.warranty.parts)}</motion.tr>}
+                            {product.warranty?.service && renderDetailRow("Service Warranty", product.warranty.service) && <motion.tr key="service-warranty-detail" layout variants={listItemVariants}>{renderDetailRow("Service Warranty", product.warranty.service)}</motion.tr>}
+                            {renderArrayDetailRow("Badges", product.badges) && <motion.tr key="badges-detail" layout variants={listItemVariants}>{renderArrayDetailRow("Badges", product.badges)}</motion.tr>}
+                            {renderArrayDetailRow("Features", product.features) && <motion.tr key="features-detail" layout variants={listItemVariants}>{renderArrayDetailRow("Features", product.features)}</motion.tr>}
+                            {renderArrayDetailRow("Labels", product.labels) && <motion.tr key="labels-detail" layout variants={listItemVariants}>{renderArrayDetailRow("Labels", product.labels)}</motion.tr>}
+                            {renderArrayDetailRow("Service Includes", product.service_includes) && <motion.tr key="service-includes-detail" layout variants={listItemVariants}>{renderArrayDetailRow("Service Includes", product.service_includes)}</motion.tr>}
+                            {renderDetailRow("Vendor", product.vendor) && <motion.tr key="vendor-detail" layout variants={listItemVariants}>{renderDetailRow("Vendor", product.vendor)}</motion.tr>}
+                        </AnimatePresence>
                     </tbody>
                 </table>
-            </div>
+            </motion.div>
 
             {/* Related Products Section */}
             {loadingRelated && <p className="mt-12 text-center text-lg">Loading related products...</p>}
             {!loadingRelated && product && product.category && ( // Show section if we attempted to load based on category
-                <div className="mt-16">
+                <motion.div className="mt-16" variants={relatedSectionVariants} initial="hidden" animate="visible">
                     <h2 className="text-2xl font-bold text-gray-800 mb-6">You Might Also Like</h2>
                     <div className="flex overflow-x-auto space-x-6 pb-4 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
-                        {relatedProducts.map((relatedProduct) => (
-                            <div key={relatedProduct._id} className="flex-none w-64"> {/* Adjust width as needed */}
-                                <Link href={`/products/${relatedProduct._id}`} className=" border rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden group h-full flex flex-col">
-                                    <div className="relative w-full h-64 bg-gray-200"> {/* Adjusted height for carousel items */}
-                                        <Image
-                                            src={relatedProduct.image_url || '/placeholder-image.jpg'}
-                                            alt={relatedProduct.model || relatedProduct.name || 'Related Product'}
-                                            layout="fill"
-                                            objectFit="cover"
-                                            className="group-hover:scale-105 transition-transform duration-300 "
-                                        />
-                                    </div>
-                                    <div className="p-3 flex flex-col flex-grow">
-                                        <h3 className="text-sm font-semibold text-gray-700 truncate group-hover:text-blue-600">{relatedProduct.model || relatedProduct.name}</h3>
-                                        <p className="text-xs text-gray-500 mb-1">{relatedProduct.brand}</p>
-                                        <div className="mt-auto">
-                                            <p className="text-md font-bold text-green-600">৳{relatedProduct.discount?.discounted_price || relatedProduct.price}</p>
+                        <AnimatePresence>
+                            {relatedProducts.map((relatedProduct) => (
+                                <motion.div key={relatedProduct._id} variants={listItemVariants} className="flex-none w-64"> {/* Adjust width as needed */}
+                                    <Link href={`/products/${relatedProduct._id}`} className=" border rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden group h-full flex flex-col">
+                                        <div className="relative w-full h-64 bg-gray-200"> {/* Adjusted height for carousel items */}
+                                            <Image
+                                                src={relatedProduct.image_url || '/placeholder-image.jpg'}
+                                                alt={relatedProduct.model || relatedProduct.name || 'Related Product'}
+                                                layout="fill"
+                                                objectFit="cover"
+                                                className="group-hover:scale-105 transition-transform duration-300 "
+                                            />
                                         </div>
-                                    </div>
-                                </Link>
-                            </div>
-                        ))}
+                                        <div className="p-3 flex flex-col flex-grow">
+                                            <h3 className="text-sm font-semibold text-gray-700 truncate group-hover:text-blue-600">{relatedProduct.model || relatedProduct.name}</h3>
+                                            <p className="text-xs text-gray-500 mb-1">{relatedProduct.brand}</p>
+                                            <div className="mt-auto">
+                                                <p className="text-md font-bold text-green-600">৳{relatedProduct.discount?.discounted_price || relatedProduct.price}</p>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                </motion.div>
+                            ))}
+                        </AnimatePresence>
                         {relatedProducts.length === 0 && (
                             <p className="text-gray-500">No related products found for this category.</p>
                         )}
                     </div>
-                </div>
+                </motion.div>
             )}
-        </main >
+        </motion.main >
     );
 }

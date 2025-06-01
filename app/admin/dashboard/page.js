@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 
 export default function AdminDashboardPage() {
@@ -87,12 +88,25 @@ export default function AdminDashboardPage() {
     if (loading && products.length === 0) return <p className="text-center mt-8">Loading products...</p>;
     if (error) return <p className="text-center text-red-500 mt-8">{error}</p>;
 
+    const tableRowVariants = {
+        initial: { opacity: 0, y: 20 },
+        animate: { opacity: 1, y: 0 },
+        exit: { opacity: 0, x: -50, transition: { duration: 0.2 } },
+    };
+
     return (
-        <div>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+        >
             <h1 className="text-xl sm:text-2xl font-bold mb-6">Admin Dashboard - Manage Products</h1>
 
-            {actionError && <p className="mb-4 text-center text-red-500 bg-red-100 p-2 rounded">{actionError}</p>}
-            {actionSuccess && <p className="mb-4 text-center text-green-500 bg-green-100 p-2 rounded">{actionSuccess}</p>}
+            <AnimatePresence>
+                {actionError && <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="mb-4 text-center text-red-500 bg-red-100 p-2 rounded">{actionError}</motion.p>}
+                {actionSuccess && <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="mb-4 text-center text-green-500 bg-green-100 p-2 rounded">{actionSuccess}</motion.p>}
+            </AnimatePresence>
+
 
             {products.length === 0 && !loading ? (
                 <p className="text-center mt-4">No products found. Ensure your &apos;products&apos; collection has data.</p>
@@ -109,9 +123,16 @@ export default function AdminDashboardPage() {
                                     <th scope="col" className="px-3 py-2 md:px-6 md:py-3">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <AnimatePresence>
                                 {products.map((product) => (
-                                    <tr key={product._id} className="bg-white border-b hover:bg-gray-50">
+                                    <motion.tr
+                                        key={product._id}
+                                        variants={tableRowVariants}
+                                        initial="initial"
+                                        animate="animate"
+                                        exit="exit"
+                                        layout // Animates layout changes (e.g., when an item is removed)
+                                        className="bg-white border-b hover:bg-gray-50">
                                         <th scope="row" className="px-3 py-2 md:px-6 md:py-4 font-medium text-gray-900 whitespace-nowrap">
                                             {product.model || product.name || 'N/A'}
                                         </th>
@@ -160,9 +181,9 @@ export default function AdminDashboardPage() {
                                                 Delete
                                             </button>
                                         </td>
-                                    </tr>
+                                    </motion.tr>
                                 ))}
-                            </tbody>
+                            </AnimatePresence>
                         </table>
                     </div>
 
@@ -188,6 +209,6 @@ export default function AdminDashboardPage() {
                     </div>
                 </>
             )}
-        </div>
+        </motion.div>
     );
 }

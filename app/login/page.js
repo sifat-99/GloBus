@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import Swal from 'sweetalert2';
+import { motion } from 'framer-motion';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
@@ -66,7 +67,12 @@ export default function LoginPage() {
 
     return (
         <main className="min-h-screen  flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 flex-grow"> {/* Added flex-grow */}
-            <div className="max-w-md w-full space-y-8 p-10 bg-white shadow-xl rounded-xl">
+            <motion.div
+                className="max-w-md w-full space-y-8 p-10 bg-white shadow-xl rounded-xl"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+            >
                 <div>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                         Sign in to your account
@@ -103,7 +109,7 @@ export default function LoginPage() {
                         </Link>
                     </p>
                 </div>
-            </div>
+            </motion.div>
         </main>
     );
 }

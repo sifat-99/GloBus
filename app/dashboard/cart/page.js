@@ -126,10 +126,19 @@ export default function CartPage() {
             Swal.fire('No items selected', 'Please select items to proceed to checkout.', 'info');
             return;
         }
-        // For now, log selected items. Implement navigation to checkout page as needed.
-        console.log('Selected items for checkout:', selectedItems.map(item => ({ productId: item.productId, quantity: item.quantity, cartItemId: item._id })));
-        Swal.fire('Proceeding', `Proceeding with ${selectedItems.length} item(s). Implement checkout navigation.`, 'info');
-        // Example: router.push('/checkout'); // You might pass selected items via query or context
+
+        // Prepare data for checkout (e.g., array of product IDs and quantities)
+        const checkoutData = selectedItems.map(item => ({
+            productId: item.productId,
+            quantity: item.quantity,
+            price: item.price, // You might want to pass the price at the time of checkout
+            name: item.productName, // Optional: for display on checkout page
+            cartItemId: item._id, // Optional: if needed on checkout page
+            sellerId: item.sellerId // Optional: if needed on checkout page
+        }));
+
+        const queryString = encodeURIComponent(JSON.stringify(checkoutData));
+        router.push(`/dashboard/cart/checkout/sslcommerz-demo?items=${queryString}`);
     };
 
     const calculateSubtotal = (item) => item.quantity * item.price;

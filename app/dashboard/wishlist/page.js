@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import Link from 'next/link';
 import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
 
 async function fetchData(url) {
     const response = await fetch(url);
@@ -65,13 +66,31 @@ export default function WishlistPage() {
     if (loading) return <div className="container mx-auto p-4"><p>Loading wishlist...</p></div>;
     if (error) return <div className="container mx-auto p-4"><p className="text-red-500">Error loading wishlist: {error}</p></div>;
 
+    const cardVariants = {
+        initial: { opacity: 0, scale: 0.9, y: 20 },
+        animate: { opacity: 1, scale: 1, y: 0 },
+        exit: { opacity: 0, scale: 0.9, y: -20, transition: { duration: 0.2 } },
+        hover: { scale: 1.03, boxShadow: "0px 8px 15px rgba(0,0,0,0.1)" }
+    };
+
+    const gridContainerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1
+            }
+        }
+    };
+
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-3xl font-bold mb-6 text-center sm:text-left">My Wishlist</h1>
             {wishlistItems.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" variants={gridContainerVariants} initial="hidden" animate="visible">
+                    <AnimatePresence>
                     {wishlistItems.map(item => (
-                        <div key={item._id} className="p-4 border rounded-lg shadow flex flex-col">
+                        <motion.div key={item._id} variants={cardVariants} exit="exit" whileHover="hover" layout className="p-4 border rounded-lg shadow flex flex-col">
                             {item.imageUrl && <Image src={item.imageUrl} alt={item.productName || 'Product Image'} width={200} height={200} className="w-full h-48 object-cover rounded mb-2" />}
                             <div className="flex-grow"> {/* Wraps content to allow actions to be pushed to the bottom */}
                                 <h2 className="text-xl font-semibold">{item.productName || 'Product Name N/A'}</h2>
@@ -92,9 +111,10 @@ export default function WishlistPage() {
                                     Remove from Wishlist
                                 </button>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
-                </div>
+                    </AnimatePresence>
+                </motion.div>
             ) : <p>Your wishlist is empty.</p>}
         </div>
     );

@@ -2,26 +2,26 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link'; // Keep Link if you plan to link to individual order details
-
-async function fetchData(url) {
-    const response = await fetch(url);
-    if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ message: response.statusText }));
-        throw new Error(errorData.message || `Failed to fetch ${url}`);
-    }
-    return response.json();
-}
+import axios from 'axios';
 
 export default function OrdersPage() {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+
+
     useEffect(() => {
+        const user = localStorage.getItem('user'); // Assuming user data is stored in localStorage
+        const userId = user ? JSON.parse(user)._id : null; // Extract user ID from stored user data
         const loadOrdersData = async () => {
             try {
-                const ordersData = await fetchData('/api/user/orders');
-                setOrders(ordersData);
+                const ordersData = await axios.get(`/api/orders/${userId}`); // Adjust the endpoint as needed
+                if (!ordersData.data || !Array.isArray(ordersData.data)) {
+                    throw new Error('Invalid orders data format');
+                }
+                // console.log('Fetched orders:', ordersData.data);
+                setOrders(ordersData.data);
             } catch (e) {
                 setError(e.message);
             } finally {
@@ -40,16 +40,26 @@ export default function OrdersPage() {
             {orders.length > 0 ? (
                 <ul className="space-y-4">
                     {orders.map(order => (
-                        <li key={order.id} className="p-4 border rounded-lg shadow">
+                        <li key={order._id} className="p-4 border rounded-lg shadow">
                             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-2 gap-1 sm:gap-4">
-                                <h2 className="text-xl font-semibold">Order #{order.id}</h2>
+                                <h2 className="text-xl font-semibold">Order #{order._id}</h2>
                                 <div className="text-xs sm:text-sm text-gray-600 sm:text-right">
-                                    <p><strong>Date:</strong> {new Date(order.date).toLocaleDateString()}</p>
-                                    <p><strong>Total:</strong> ${order.total.toFixed(2)}</p>
+                                    <p><strong>Date:</strong> {new Date(order.createdAt).toLocaleDateString()}</p>
+                                    <p><strong>Total:</strong> ${order.totalAmount.toFixed(2)}</p>
                                 </div>
                             </div>
                             <div className="mb-3">
-                                <p><strong>Status:</strong> <span className={`px-2 py-0.5 text-xs sm:text-sm rounded ${order.status === 'Delivered' ? 'bg-green-100 text-green-700' : order.status === 'Shipped' ? 'bg-blue-100 text-blue-700' : 'bg-yellow-100 text-yellow-700'}`}>{order.status}</span></p>
+                                <p><strong>Status:</strong>
+                                    <span className={`ml-1 ${order.transactionId ? 'text-green-600' : 'text-yellow-600'}`}>
+                                        {order.transactionId ? ' Paid' : ' Unpaid'}
+                                    </span>
+                                </p>
+                                <p><strong>Payment Method:</strong> {order.paymentMethod || 'N/A'}</p>
+                                <p><strong>Shipping Address:</strong> {order.customerDetails.deliveryAddress || 'N/A'}</p>
+
+                                <p><strong>Status:</strong> {order.orderStatus || 'N/A'}</p>
+
+
                             </div>
 
                             <div className="mt-1">
@@ -60,9 +70,6 @@ export default function OrdersPage() {
                                     ))}
                                 </ul>
                             </div>
-
-                            {/* Optional: Link to a detailed order view page */}
-                            {/* <Link href={`/dashboard/orders/${order.id}`} className="text-blue-600 hover:underline mt-2 inline-block">View Details</Link> */}
                         </li>
                     ))}
                 </ul>

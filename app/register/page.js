@@ -4,6 +4,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function RegisterPage() {
     const [name, setName] = useState('');
@@ -34,19 +35,30 @@ export default function RegisterPage() {
 
     return (
         <main className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 flex-grow">
-            <div className="max-w-md w-full space-y-8 p-10 bg-white shadow-xl rounded-xl">
+            <motion.div
+                className="max-w-md w-full space-y-8 p-10 bg-white shadow-xl rounded-xl"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+            >
                 <div>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                         Create your account
                     </h2>
                 </div>
-            {error && <p className="text-center text-red-500 bg-red-100 p-2 rounded">{error}</p>}
-            {success && (
-                <div className="text-center text-green-500 bg-green-100 p-3 rounded-md">
-                    <p>{success}</p>
-                    <p>Redirecting to login...</p>
-                </div>
-            )}
+                <AnimatePresence>
+                    {error && (
+                        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-center text-red-500 bg-red-100 p-2 rounded">
+                            {error}
+                        </motion.p>
+                    )}
+                    {success && (
+                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-center text-green-500 bg-green-100 p-3 rounded-md">
+                            <p>{success}</p>
+                            <p>Redirecting to login...</p>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
                 <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
                     <div className="rounded-md shadow-sm -space-y-px">
                         <div>
@@ -93,7 +105,7 @@ export default function RegisterPage() {
                         </Link>
                     </p>
                 </div>
-            </div>
+            </motion.div>
         </main>
     );
 }
