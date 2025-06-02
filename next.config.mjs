@@ -26,6 +26,18 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: 'nx91e1z55v.ufs.sh',
             },
+            {
+                protocol: 'https',
+                hostname: 'cdn.sanity.io',
+            },
+            {
+                protocol: 'https',
+                hostname: 'wMVhzGWYItJVvHhx3alxow8L5Vzy0WJ4fNEO3QjXZTbGCeSR',
+            },
+            {
+                protocol: 'https',
+                hostname: 'res.cloudinary.com',
+            }
         ],
     },
 }
